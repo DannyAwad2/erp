@@ -12,7 +12,6 @@ import { MessagesService } from './messages.service';
 export class ProductsService {
   productCreatedEvent = new EventEmitter<IProduct>();
   productEditEvent = new EventEmitter<IProduct>();
-  productDeleteEvent = new EventEmitter<IProduct>();
 
   private baseURL = environment.baseURL;
 

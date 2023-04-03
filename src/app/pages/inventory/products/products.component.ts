@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs';
 import { CreateProductModalComponent } from 'src/app/core/components/create-product-modal/create-product-modal.component';
 import { UpdateProductModalComponent } from 'src/app/core/components/update-product-modal/update-product-modal.component';
 import { IProduct } from 'src/app/core/models/iproduct';
+import { MessagesService } from 'src/app/core/services/messages.service';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
@@ -24,7 +25,10 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateProductModalComponent)
   createModalRef!: CreateProductModalComponent;
   products: IProduct[] = [];
-  constructor(private productsService: ProductsService) {
+  constructor(
+    private productsService: ProductsService,
+    private messages: MessagesService
+  ) {
     super();
   }
 
@@ -47,5 +51,14 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
 
   onEdit(product: IProduct) {
     this.productsService.productEditEvent.emit(product);
+  }
+
+  async onDelete(product: IProduct) {
+    const { isConfirmed } = await this.messages.deleteConfirm(product.name);
+    if (isConfirmed) {
+      this.productsService.deleteProduct(product.id).subscribe((res) => {
+        this.messages.deletedToast(product.name);
+      });
+    }
   }
 }

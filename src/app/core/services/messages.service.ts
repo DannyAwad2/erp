@@ -14,16 +14,16 @@ export class MessagesService {
     icon: SweetAlertIcon = 'question'
   ): Promise<SweetAlertResult<any>> {
     return Swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to ${message}`,
+      title: 'هل انت متأكد؟',
+      text: `هل تريد ${message}`,
       icon: icon,
       showCancelButton: true,
-      background: 'var(--vz-modal-bg)',
+      cancelButtonText: 'ألغاء',
       customClass: {
         confirmButton: `btn btn-${btn} btn-sm w-xs me-2 mt-2`,
         cancelButton: 'btn btn-ghost-danger btn-sm w-xs mt-2',
       },
-      confirmButtonText: `Yes, ${btnTitle}`,
+      confirmButtonText: `نعم, ${btnTitle}`,
       buttonsStyling: false,
       showCloseButton: true,
     });
@@ -106,10 +106,10 @@ export class MessagesService {
   }
 
   deleteConfirm(name: string) {
-    return this.confirm('delete', `delete ${name}?`);
+    return this.confirm('مسح', `مسح (${name})؟`);
   }
   deletedToast(name: string) {
-    return this.toast(`(${name}) was deleted successfully`, 'success');
+    return this.toast(`تم مسح (${name}) بنجاح`, 'success');
   }
   deleteErrorPopup(name: string) {
     this.popup(

@@ -1,14 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Small Cotton Tuna",
-      "price": "110.00",
-      "stock": 1268,
-      "cost": "967.00",
-      "category": "Fish"
-    },
-    {
       "id": 2,
       "name": "Small Cotton Tuna",
       "price": "110.00",
@@ -39,24 +31,6 @@
       "stock": 1268,
       "cost": "967.00",
       "category": "Fish"
-    },
-    {
-      "cost": 787,
-      "price": 8787,
-      "category": "enhenh",
-      "name": "nhen",
-      "published": "2023-04-03T11:25:25.973Z",
-      "stock": 786,
-      "id": 6
-    },
-    {
-      "cost": 45,
-      "price": 65,
-      "category": "trt",
-      "name": "trt",
-      "published": "2023-04-03T11:26:25.564Z",
-      "stock": 46,
-      "id": 7
     },
     {
       "cost": 34,
