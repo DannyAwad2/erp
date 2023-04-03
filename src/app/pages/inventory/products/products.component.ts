@@ -53,11 +53,12 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
     this.productsService.productEditEvent.emit(product);
   }
 
-  async onDelete(product: IProduct) {
+  async onDelete(product: IProduct, index: number) {
     const { isConfirmed } = await this.messages.deleteConfirm(product.name);
     if (isConfirmed) {
       this.productsService.deleteProduct(product.id).subscribe((res) => {
         this.messages.deletedToast(product.name);
+        this.products.splice(index, 1);
       });
     }
   }

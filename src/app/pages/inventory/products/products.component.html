@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of products">
+        <tr *ngFor="let product of products; let i = index">
           <td>{{ product.name }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.stock }}</td>
@@ -65,7 +65,7 @@
                 </li>
                 <li>
                   <button
-                    (click)="onDelete(product)"
+                    (click)="onDelete(product, i)"
                     class="dropdown-item"
                     href="#"
                   >

@@ -51,15 +51,6 @@
       "id": 9
     },
     {
-      "id": 10,
-      "cost": 22,
-      "price": 22,
-      "category": "سبس",
-      "name": "سبس",
-      "published": "2023-04-03T12:36:03.453Z",
-      "stock": 22
-    },
-    {
       "cost": 3453,
       "price": 3453,
       "category": "rst",
@@ -103,15 +94,6 @@
       "published": "2023-04-03T11:55:04.172Z",
       "stock": 545,
       "id": 15
-    },
-    {
-      "cost": 454,
-      "price": 4545,
-      "category": "fp",
-      "name": "wfp",
-      "published": "2023-04-03T11:55:13.661Z",
-      "stock": 545,
-      "id": 16
     },
     {
       "cost": 454,
