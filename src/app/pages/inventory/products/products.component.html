@@ -2,7 +2,18 @@
   <div class="card-header border-0">
     <div class="row g-4">
       <div class="col">
-        <div>
+        <div class="d-flex justify-content-sm-start">
+          <input
+            type="search"
+            type="text"
+            placeholder="اسم المنتج"
+            class="form-control"
+            (change)="onFilter($event)"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div style="text-align: left">
           <button
             (click)="createProduct()"
             class="btn btn-success"
@@ -10,16 +21,6 @@
           >
             <i class="ri-add-line align-bottom me-1"></i> إضافة منتج
           </button>
-        </div>
-      </div>
-      <div class="col">
-        <div class="d-flex justify-content-sm-end">
-          <input
-            type="search"
-            type="text"
-            placeholder="اسم المنتج"
-            class="form-control"
-          />
         </div>
       </div>
     </div>
@@ -40,7 +41,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of products; let i = index">
+        <tr *ngFor="let product of fliterdProducts; let i = index">
           <td style="min-width: 150px">{{ product.name }}</td>
           <td style="min-width: 90px">{{ product.price }}</td>
           <td style="min-width: 90px">{{ product.stock }}</td>

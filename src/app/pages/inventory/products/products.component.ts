@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs';
 import { CreateProductModalComponent } from 'src/app/core/components/create-product-modal/create-product-modal.component';
@@ -19,12 +20,16 @@ import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
     UpdateProductModalComponent,
     CommonModule,
     NgbDropdownModule,
+    FormsModule,
   ],
 })
 export class ProductsComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateProductModalComponent)
   createModalRef!: CreateProductModalComponent;
+
   products: IProduct[] = [];
+  fliterdProducts: IProduct[] = [];
+
   constructor(
     private productsService: ProductsService,
     private messages: MessagesService
@@ -36,12 +41,16 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
     this.productsService
       .getProductsList()
       .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((products) => (this.products = products));
+      .subscribe((products) => {
+        this.products = products;
+        this.fliterdProducts = products;
+      });
 
     this.productsService.productCreatedEvent
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((product) => {
         this.products.unshift(product);
+        this.fliterdProducts = this.products;
       });
   }
 
@@ -61,5 +70,15 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
         this.products.splice(index, 1);
       });
     }
+  }
+
+  onFilter(term: any) {
+    if (term.target.value === '') {
+      this.fliterdProducts = this.products;
+      return;
+    }
+    this.fliterdProducts = this.products.filter((product) =>
+      product.name.includes(term.target.value)
+    );
   }
 }
