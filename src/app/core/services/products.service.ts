@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,10 @@ import { MessagesService } from './messages.service';
   providedIn: 'root',
 })
 export class ProductsService {
+  productCreatedEvent = new EventEmitter<IProduct>();
+  productEditEvent = new EventEmitter<IProduct>();
+  productDeleteEvent = new EventEmitter<IProduct>();
+
   private baseURL = environment.baseURL;
 
   constructor(
@@ -23,12 +27,13 @@ export class ProductsService {
     );
   }
 
-  createProduct(product: IProduct): Observable<Object> {
+  createProduct(product: IProduct): Observable<IProduct> {
     return this.httpClient
-      .post(`${this.baseURL + ApiRoutes.products}`, product)
+      .post<IProduct>(`${this.baseURL + ApiRoutes.products}`, product)
       .pipe(
-        tap(() => {
+        tap((p) => {
           this.messages.createdToast(product.name);
+          this.productCreatedEvent.emit(p);
         })
       );
   }
@@ -39,10 +44,10 @@ export class ProductsService {
     );
   }
 
-  updateProduct(id: number, Product: IProduct): Observable<Object> {
+  updateProduct(product: IProduct): Observable<Object> {
     return this.httpClient.put(
-      `${this.baseURL + ApiRoutes.products}/${id}`,
-      Product
+      `${this.baseURL + ApiRoutes.products}/${product.id}`,
+      product
     );
   }
 

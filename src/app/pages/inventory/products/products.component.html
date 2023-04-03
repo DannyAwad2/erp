@@ -14,14 +14,8 @@
       </div>
       <div class="col-sm">
         <div class="d-flex justify-content-sm-end">
-          <div class="search-box ms-2">
-            <input
-              type="text"
-              class="form-control"
-              id="searchProductList"
-              placeholder="Search Products..."
-            />
-            <i class="ri-search-line search-icon"></i>
+          <div class="ms-2">
+            <input type="text" class="form-control" />
           </div>
         </div>
       </div>
@@ -29,7 +23,7 @@
   </div>
 </div>
 
-<div class="card">
+<div class="card" style="max-height: 75vh; overflow-y: scroll">
   <div class="card-body">
     <table class="table table-striped">
       <thead>
@@ -43,13 +37,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.stock }}</td>
+          <td>{{ product.cost }}</td>
+          <td>{{ product.published }}</td>
+          <td>
+            <div ngbDropdown>
+              <button
+                class="btn btn-secondary btn-sm dropdown"
+                type="button"
+                ngbDropdownToggle
+              >
+                تعديل
+              </button>
+              <ul ngbDropdownMenu>
+                <li>
+                  <button
+                    (click)="onEdit(product)"
+                    class="dropdown-item"
+                    href="#"
+                  >
+                    <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                    تعديل
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item" href="#">
+                    <i
+                      class="ri-delete-bin-fill align-bottom me-2 text-danger"
+                    ></i>
+                    مسح
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -57,3 +81,4 @@
 </div>
 
 <app-create-product-modal></app-create-product-modal>
+<app-update-product-modal></app-update-product-modal>

@@ -1,26 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormGroup, FormControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
-  NgbDatepickerModule,
-  NgbModal,
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
   NgbModalRef,
+  NgbModal,
+  NgbDatepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
-
 import { ICreateProduct } from '../../models/form-models/icreate-product';
-import { ProductsService } from '../../services/products.service';
 import { IProduct } from '../../models/iproduct';
+import { ProductsService } from '../../services/products.service';
 import { Unsubscriber } from '../../utils/unsubscriber';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-create-product-modal',
-  templateUrl: './create-product-modal.component.html',
-  styleUrls: ['./create-product-modal.component.css'],
+  selector: 'app-update-product-modal',
+  templateUrl: './update-product-modal.component.html',
+  styleUrls: ['./update-product-modal.component.css'],
   standalone: true,
   imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
 })
-export class CreateProductModalComponent
+export class UpdateProductModalComponent
   extends Unsubscriber
   implements OnInit
 {
@@ -28,6 +31,7 @@ export class CreateProductModalComponent
   form!: FormGroup<ICreateProduct>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
+  id: number = 0;
 
   constructor(
     private modalService: NgbModal,
@@ -43,6 +47,18 @@ export class CreateProductModalComponent
       price: new FormControl(null, Validators.required),
       stock: new FormControl(null, Validators.required),
       cost: new FormControl(null, Validators.required),
+    });
+
+    this.productsService.productEditEvent.subscribe((product) => {
+      (this.id = product.id),
+        this.form.patchValue({
+          name: product.name,
+          category: product.category,
+          cost: product.cost,
+          price: product.price,
+          stock: product.stock,
+        });
+      this.open();
     });
   }
 
@@ -71,8 +87,8 @@ export class CreateProductModalComponent
     this.form.disable();
     this.isSubmiting = true;
 
-    const freshProduct: IProduct = {
-      id: 0,
+    const updatedProduct: IProduct = {
+      id: this.id,
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
       category: this.formControls.category.value || '',
@@ -81,7 +97,7 @@ export class CreateProductModalComponent
       stock: this.formControls.stock.value || 0,
     };
 
-    this.productsService.createProduct(freshProduct).subscribe((product) => {
+    this.productsService.updateProduct(updatedProduct).subscribe((product) => {
       this.close();
     });
   }

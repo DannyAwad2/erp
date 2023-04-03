@@ -77,13 +77,13 @@
       "id": 9
     },
     {
-      "cost": 343,
-      "price": 434,
+      "id": 10,
+      "cost": 22,
+      "price": 22,
       "category": "سبس",
       "name": "سبس",
-      "published": "2023-04-03T11:35:08.740Z",
-      "stock": 343,
-      "id": 10
+      "published": "2023-04-03T12:36:03.453Z",
+      "stock": 22
     },
     {
       "cost": 3453,
@@ -111,6 +111,60 @@
       "published": "2023-04-03T11:37:49.572Z",
       "stock": 345,
       "id": 13
+    },
+    {
+      "cost": 45,
+      "price": 435,
+      "category": "st",
+      "name": "stst",
+      "published": "2023-04-03T11:54:19.436Z",
+      "stock": 3453,
+      "id": 14
+    },
+    {
+      "cost": 454,
+      "price": 545,
+      "category": "rst",
+      "name": "rst",
+      "published": "2023-04-03T11:55:04.172Z",
+      "stock": 545,
+      "id": 15
+    },
+    {
+      "cost": 454,
+      "price": 4545,
+      "category": "fp",
+      "name": "wfp",
+      "published": "2023-04-03T11:55:13.661Z",
+      "stock": 545,
+      "id": 16
+    },
+    {
+      "cost": 454,
+      "price": 545,
+      "category": "fpg",
+      "name": "fpgf",
+      "published": "2023-04-03T11:55:20.868Z",
+      "stock": 4545,
+      "id": 17
+    },
+    {
+      "cost": 545,
+      "price": 454,
+      "category": "wfp",
+      "name": "wfp",
+      "published": "2023-04-03T11:55:28.980Z",
+      "stock": 3453,
+      "id": 18
+    },
+    {
+      "id": 19,
+      "cost": 34,
+      "price": 324,
+      "category": "xxx",
+      "name": "xxx",
+      "published": "2023-04-03T12:35:42.213Z",
+      "stock": 243
     }
   ]
 }
