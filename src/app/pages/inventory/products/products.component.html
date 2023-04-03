@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<div class="card" style="overflow-x: scroll">
+<div *ngIf="fliterdProducts.length > 0" class="card" style="overflow-x: scroll">
   <div class="card-body">
     <table class="table table-striped table-bordered" style="min-width: 1400">
       <thead>
@@ -50,7 +50,7 @@
             {{ product.published | date : "short" }}
           </td>
           <td>
-            <div ngbDropdown>
+            <div ngbDropdown container="body">
               <button
                 class="btn btn-secondary btn-sm dropdown"
                 type="button"
@@ -88,6 +88,12 @@
       </tbody>
     </table>
   </div>
+</div>
+<div
+  class="alert alert-warning text-center"
+  *ngIf="fliterdProducts.length === 0"
+>
+  لم يتم إضافة اي منتجات
 </div>
 
 <app-create-product-modal></app-create-product-modal>
