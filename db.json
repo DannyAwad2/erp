@@ -1,0 +1,116 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Small Cotton Tuna",
+      "price": "110.00",
+      "stock": 1268,
+      "cost": "967.00",
+      "category": "Fish"
+    },
+    {
+      "id": 2,
+      "name": "Small Cotton Tuna",
+      "price": "110.00",
+      "stock": 1268,
+      "cost": "967.00",
+      "category": "Fish"
+    },
+    {
+      "id": 3,
+      "name": "Small Cotton Tuna",
+      "price": "110.00",
+      "stock": 1268,
+      "cost": "967.00",
+      "category": "Fish"
+    },
+    {
+      "id": 4,
+      "name": "Small Cotton Tuna",
+      "price": "110.00",
+      "stock": 1268,
+      "cost": "967.00",
+      "category": "Fish"
+    },
+    {
+      "id": 5,
+      "name": "Small Cotton Tuna",
+      "price": "110.00",
+      "stock": 1268,
+      "cost": "967.00",
+      "category": "Fish"
+    },
+    {
+      "cost": 787,
+      "price": 8787,
+      "category": "enhenh",
+      "name": "nhen",
+      "published": "2023-04-03T11:25:25.973Z",
+      "stock": 786,
+      "id": 6
+    },
+    {
+      "cost": 45,
+      "price": 65,
+      "category": "trt",
+      "name": "trt",
+      "published": "2023-04-03T11:26:25.564Z",
+      "stock": 46,
+      "id": 7
+    },
+    {
+      "cost": 34,
+      "price": 434,
+      "category": "rst",
+      "name": "rts",
+      "published": "2023-04-03T11:30:32.876Z",
+      "stock": 34,
+      "id": 8
+    },
+    {
+      "cost": 34,
+      "price": 34,
+      "category": "st",
+      "name": "ts",
+      "published": "2023-04-03T11:31:02.540Z",
+      "stock": 343,
+      "id": 9
+    },
+    {
+      "cost": 343,
+      "price": 434,
+      "category": "سبس",
+      "name": "سبس",
+      "published": "2023-04-03T11:35:08.740Z",
+      "stock": 343,
+      "id": 10
+    },
+    {
+      "cost": 3453,
+      "price": 3453,
+      "category": "rst",
+      "name": "rts",
+      "published": "2023-04-03T11:35:51.653Z",
+      "stock": 345,
+      "id": 11
+    },
+    {
+      "cost": 6456,
+      "price": 56,
+      "category": "trst",
+      "name": "rst",
+      "published": "2023-04-03T11:37:21.941Z",
+      "stock": 456,
+      "id": 12
+    },
+    {
+      "cost": 45,
+      "price": 45,
+      "category": "rst",
+      "name": "st",
+      "published": "2023-04-03T11:37:49.572Z",
+      "stock": 345,
+      "id": 13
+    }
+  ]
+}
