@@ -3,8 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs';
-import { CreateProductModalComponent } from 'src/app/core/components/create-product-modal/create-product-modal.component';
-import { UpdateProductModalComponent } from 'src/app/core/components/update-product-modal/update-product-modal.component';
+import { CreateProductModalComponent } from 'src/app/core/components/products/create-product-modal/create-product-modal.component';
+import { UpdateProductModalComponent } from 'src/app/core/components/products/update-product-modal/update-product-modal.component';
 import { IProduct } from 'src/app/core/models/iproduct';
 import { MessagesService } from 'src/app/core/services/messages.service';
 import { ProductsService } from 'src/app/core/services/products.service';
@@ -25,70 +25,96 @@ import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 })
 export class ProductsComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateProductModalComponent)
-  createModalRef!: CreateProductModalComponent;
-  products: IProduct[] = [];
-  fliterdProducts: IProduct[] = [];
+  createEntityModalRef!: CreateProductModalComponent;
+  entities: IProduct[] = [];
+  fliterdEntites: IProduct[] = [];
+  isError = false;
+  isLoading = false;
 
   constructor(
-    private productsService: ProductsService,
+    private entityService: ProductsService,
     private messages: MessagesService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.productsService
-      .getProductsList()
+    this.fetchEntities();
+
+    this.entityService.onCreated
       .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((products) => {
-        this.products = products;
-        this.fliterdProducts = products;
+      .subscribe((entity) => {
+        this.entities.unshift(entity);
+        this.fliterdEntites = this.entities;
       });
 
-    this.productsService.productCreatedEvent
+    this.entityService.onEdited
       .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((product) => {
-        this.products.unshift(product);
-        this.fliterdProducts = this.products;
-      });
-
-    this.productsService.productEditedEvent
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((product) => {
-        const index = this.fliterdProducts.findIndex(
-          (p) => p.id === product.id
-        );
-        this.fliterdProducts.splice(index, 1, product);
-        this.fliterdProducts = this.products;
+      .subscribe((entity) => {
+        const index = this.fliterdEntites.findIndex((p) => p.id === entity.id);
+        this.fliterdEntites.splice(index, 1, entity);
+        this.fliterdEntites = this.entities;
         this.messages.toast('تم التعديل بنجاح', 'success');
       });
   }
 
-  createProduct() {
-    this.createModalRef.open();
+  fetchEntities() {
+    this.isError = false;
+    this.isLoading = true;
+    this.entityService
+      .getAll()
+      .pipe(takeUntil(this.unsubscriber$))
+      .subscribe(
+        (entities) => {
+          this.entities = entities;
+          this.fliterdEntites = entities;
+          this.isError = false;
+          this.isLoading = false;
+        },
+        () => {
+          this.isError = true;
+          this.isLoading = true;
+        }
+      );
   }
 
-  onEdit(product: IProduct) {
-    this.productsService.productSelectedEvent.emit(product);
+  createEntity() {
+    this.createEntityModalRef.open();
   }
 
-  async onDelete(product: IProduct, index: number) {
-    const { isConfirmed } = await this.messages.deleteConfirm(product.name);
+  onEdit(entity: IProduct) {
+    this.entityService.onSelected.emit(entity);
+  }
+
+  async onDelete(entity: IProduct, index: number) {
+    const { isConfirmed } = await this.messages.deleteConfirm(entity.name);
     if (isConfirmed) {
-      this.productsService.deleteProduct(product.id).subscribe((res) => {
-        this.messages.deletedToast(product.name);
-        this.products.splice(index, 1);
-      });
+      this.isLoading = true;
+      this.entityService
+        .delete(entity.id)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe(
+          (res) => {
+            this.messages.deletedToast(entity.name);
+            this.entities.splice(index, 1);
+            this.isLoading = false;
+            this.isError = false;
+          },
+          (err) => {
+            this.messages.toast('خطأ ما في الشبكة', 'error');
+            this.isLoading = false;
+          }
+        );
     }
   }
 
   onFilter(term: any) {
-    if (term.target.value === '') {
-      this.fliterdProducts = this.products;
+    if (term.target.value.trim() === '') {
+      this.fliterdEntites = this.entities;
       return;
     }
-    this.fliterdProducts = this.products.filter((product) =>
-      product.name.includes(term.target.value)
+    this.fliterdEntites = this.entities.filter((entity) =>
+      entity.name.toLowerCase().includes(term.target.value.toLowerCase())
     );
   }
 }

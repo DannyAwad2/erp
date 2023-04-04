@@ -10,9 +10,9 @@ import { MessagesService } from './messages.service';
   providedIn: 'root',
 })
 export class ProductsService {
-  productCreatedEvent = new EventEmitter<IProduct>();
-  productSelectedEvent = new EventEmitter<IProduct>();
-  productEditedEvent = new EventEmitter<IProduct>();
+  onCreated = new EventEmitter<IProduct>();
+  onSelected = new EventEmitter<IProduct>();
+  onEdited = new EventEmitter<IProduct>();
 
   private baseURL = environment.baseURL;
 
@@ -21,37 +21,37 @@ export class ProductsService {
     private messages: MessagesService
   ) {}
 
-  getProductsList(): Observable<IProduct[]> {
+  getAll(): Observable<IProduct[]> {
     return this.httpClient.get<IProduct[]>(
       `${this.baseURL + ApiRoutes.products}`
     );
   }
 
-  createProduct(product: IProduct): Observable<IProduct> {
+  create(product: IProduct): Observable<IProduct> {
     return this.httpClient
       .post<IProduct>(`${this.baseURL + ApiRoutes.products}`, product)
       .pipe(
         tap((p) => {
           this.messages.createdToast(product.name);
-          this.productCreatedEvent.emit(p);
+          this.onCreated.emit(p);
         })
       );
   }
 
-  getProductById(id: number): Observable<IProduct> {
+  getById(id: number): Observable<IProduct> {
     return this.httpClient.get<IProduct>(
       `${this.baseURL + ApiRoutes.products}/${id}`
     );
   }
 
-  updateProduct(product: IProduct): Observable<IProduct> {
+  update(product: IProduct): Observable<IProduct> {
     return this.httpClient.put<IProduct>(
       `${this.baseURL + ApiRoutes.products}/${product.id}`,
       product
     );
   }
 
-  deleteProduct(id: number): Observable<Object> {
+  delete(id: number): Observable<Object> {
     return this.httpClient.delete(`${this.baseURL + ApiRoutes.products}/${id}`);
   }
 }
