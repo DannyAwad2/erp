@@ -15,11 +15,12 @@ import { IProduct } from '../../models/iproduct';
 import { ProductsService } from '../../services/products.service';
 import { Unsubscriber } from '../../utils/unsubscriber';
 import { CommonModule } from '@angular/common';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-update-product-modal',
   templateUrl: './update-product-modal.component.html',
-  styleUrls: ['./update-product-modal.component.css'],
+  styleUrls: ['./update-product-modal.component.scss'],
   standalone: true,
   imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
 })
@@ -49,17 +50,19 @@ export class UpdateProductModalComponent
       cost: new FormControl(null, Validators.required),
     });
 
-    this.productsService.productEditEvent.subscribe((product) => {
-      (this.id = product.id),
-        this.form.patchValue({
-          name: product.name,
-          category: product.category,
-          cost: product.cost,
-          price: product.price,
-          stock: product.stock,
-        });
-      this.open();
-    });
+    this.productsService.productSelectedEvent
+      .pipe(takeUntil(this.unsubscriber$))
+      .subscribe((product) => {
+        (this.id = product.id),
+          this.form.patchValue({
+            name: product.name,
+            category: product.category,
+            cost: product.cost,
+            price: product.price,
+            stock: product.stock,
+          });
+        this.open();
+      });
   }
 
   open() {
@@ -71,15 +74,13 @@ export class UpdateProductModalComponent
   close() {
     this.form.reset();
     this.form.enable();
-    this.activeModalRef.close();
     this.isSubmiting = false;
+    this.activeModalRef.close();
     this.unsubscriber$.next();
     this.unsubscriber$.complete();
   }
 
   onSubmit() {
-    console.log(this.form);
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -97,9 +98,13 @@ export class UpdateProductModalComponent
       stock: this.formControls.stock.value || 0,
     };
 
-    this.productsService.updateProduct(updatedProduct).subscribe((product) => {
-      this.close();
-    });
+    this.productsService
+      .updateProduct(updatedProduct)
+      .pipe(takeUntil(this.unsubscriber$))
+      .subscribe((product) => {
+        this.close();
+        this.productsService.productEditedEvent.emit(product);
+      });
   }
 
   get formControls() {

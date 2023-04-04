@@ -13,7 +13,7 @@ import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
+  styleUrls: ['./products.component.scss'],
   standalone: true,
   imports: [
     CreateProductModalComponent,
@@ -26,7 +26,6 @@ import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 export class ProductsComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateProductModalComponent)
   createModalRef!: CreateProductModalComponent;
-
   products: IProduct[] = [];
   fliterdProducts: IProduct[] = [];
 
@@ -52,6 +51,17 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
         this.products.unshift(product);
         this.fliterdProducts = this.products;
       });
+
+    this.productsService.productEditedEvent
+      .pipe(takeUntil(this.unsubscriber$))
+      .subscribe((product) => {
+        const index = this.fliterdProducts.findIndex(
+          (p) => p.id === product.id
+        );
+        this.fliterdProducts.splice(index, 1, product);
+        this.fliterdProducts = this.products;
+        this.messages.toast('تم التعديل بنجاح', 'success');
+      });
   }
 
   createProduct() {
@@ -59,7 +69,7 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
   }
 
   onEdit(product: IProduct) {
-    this.productsService.productEditEvent.emit(product);
+    this.productsService.productSelectedEvent.emit(product);
   }
 
   async onDelete(product: IProduct, index: number) {

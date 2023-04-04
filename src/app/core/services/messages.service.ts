@@ -54,8 +54,6 @@ export class MessagesService {
     if (res2.isDenied) {
       this.router.navigate(['Clients']);
     } else {
-      // window.scroll(0, 0);
-      // document?.querySelector("body")?.scrollTo(0, 0);
       document.body.scrollTop = 0;
     }
   }
@@ -63,7 +61,7 @@ export class MessagesService {
   toast(message: string, icon: SweetAlertIcon = 'info') {
     const Toast = Swal.mixin({
       toast: true,
-      position: 'top',
+      position: 'top-right',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,

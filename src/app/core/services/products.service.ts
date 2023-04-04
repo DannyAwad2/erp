@@ -11,7 +11,8 @@ import { MessagesService } from './messages.service';
 })
 export class ProductsService {
   productCreatedEvent = new EventEmitter<IProduct>();
-  productEditEvent = new EventEmitter<IProduct>();
+  productSelectedEvent = new EventEmitter<IProduct>();
+  productEditedEvent = new EventEmitter<IProduct>();
 
   private baseURL = environment.baseURL;
 
@@ -43,8 +44,8 @@ export class ProductsService {
     );
   }
 
-  updateProduct(product: IProduct): Observable<Object> {
-    return this.httpClient.put(
+  updateProduct(product: IProduct): Observable<IProduct> {
+    return this.httpClient.put<IProduct>(
       `${this.baseURL + ApiRoutes.products}/${product.id}`,
       product
     );

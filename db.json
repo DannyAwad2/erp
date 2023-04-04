@@ -1,3 +1,31 @@
 {
-  "products": []
+  "products": [
+    {
+      "id": 1,
+      "cost": 45345,
+      "price": 3453,
+      "category": "rstr",
+      "name": "rstr",
+      "published": "2023-04-04T08:51:55.321Z",
+      "stock": 345345
+    },
+    {
+      "id": 3,
+      "cost": 4545,
+      "price": 4545,
+      "category": "stds",
+      "name": "sdsdaaa",
+      "published": "2023-04-04T09:12:46.600Z",
+      "stock": 4545
+    },
+    {
+      "id": 4,
+      "cost": 45345,
+      "price": 3453,
+      "category": "ars",
+      "name": "  XXYYYYss",
+      "published": "2023-04-04T09:13:24.169Z",
+      "stock": 34535
+    }
+  ]
 }
