@@ -3,3 +3,12 @@
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
 @import "remixicon/fonts/remixicon.css";
+
+@font-face {
+  font-family: "AraJozoor"; /*a name to be used later*/
+  src: url("./assets/fonts/AraJozoor-Regular.ttf"); /*URL to font*/
+}
+
+body {
+  font-family: "AraJozoor";
+}
