@@ -32,7 +32,7 @@ export class CreateCategoryModalComponent
 
   constructor(
     private modalService: NgbModal,
-    private categoriesService: CategoriesService,
+    private entitiesService: CategoriesService,
     private messages: MessagesService
   ) {
     super();
@@ -67,10 +67,10 @@ export class CreateCategoryModalComponent
     this.form.disable();
     this.isSubmiting = true;
 
-    const categoryName = this.form.value.name || '';
+    const entityName = this.form.value.name || '';
 
-    this.categoriesService
-      .createCategory(categoryName)
+    this.entitiesService
+      .create(entityName)
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe(
         () => {

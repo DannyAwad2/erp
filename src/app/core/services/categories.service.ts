@@ -10,9 +10,9 @@ import { ICategory } from '../models/icategory';
   providedIn: 'root',
 })
 export class CategoriesService {
-  categoryCreatedEvent = new EventEmitter<ICategory>();
-  categorySelectedEvent = new EventEmitter<ICategory>();
-  categoryEditedEvent = new EventEmitter<ICategory>();
+  onCreated = new EventEmitter<ICategory>();
+  onSelected = new EventEmitter<ICategory>();
+  onEdited = new EventEmitter<ICategory>();
 
   private baseURL = environment.baseURL;
 
@@ -21,37 +21,37 @@ export class CategoriesService {
     private messages: MessagesService
   ) {}
 
-  getCategoryList(): Observable<ICategory[]> {
+  getAll(): Observable<ICategory[]> {
     return this.httpClient.get<ICategory[]>(
       `${this.baseURL + ApiRoutes.categories}`
     );
   }
 
-  createCategory(name: string): Observable<ICategory> {
+  create(name: string): Observable<ICategory> {
     return this.httpClient
       .post<ICategory>(`${this.baseURL + ApiRoutes.categories}`, { name })
       .pipe(
         tap((p) => {
           this.messages.createdToast(name);
-          this.categoryCreatedEvent.emit(p);
+          this.onCreated.emit(p);
         })
       );
   }
 
-  getCategoryById(id: number): Observable<ICategory> {
+  getById(id: number): Observable<ICategory> {
     return this.httpClient.get<ICategory>(
       `${this.baseURL + ApiRoutes.categories}/${id}`
     );
   }
 
-  updateCategory(category: ICategory): Observable<ICategory> {
+  update(category: ICategory): Observable<ICategory> {
     return this.httpClient.put<ICategory>(
       `${this.baseURL + ApiRoutes.categories}/${category.id}`,
       { name: category.name }
     );
   }
 
-  deleteCategory(id: number): Observable<Object> {
+  delete(id: number): Observable<Object> {
     return this.httpClient.delete(
       `${this.baseURL + ApiRoutes.categories}/${id}`
     );

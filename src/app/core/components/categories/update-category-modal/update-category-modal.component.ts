@@ -37,7 +37,7 @@ export class UpdateCategoryModalComponent
 
   constructor(
     private modalService: NgbModal,
-    private categoriesService: CategoriesService,
+    private entitiesService: CategoriesService,
     private messages: MessagesService
   ) {
     super();
@@ -48,12 +48,12 @@ export class UpdateCategoryModalComponent
       name: new FormControl(null, Validators.required),
     });
 
-    this.categoriesService.categorySelectedEvent
+    this.entitiesService.onSelected
       .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((category) => {
-        (this.id = category.id),
+      .subscribe((entity) => {
+        (this.id = entity.id),
           this.form.patchValue({
-            name: category.name,
+            name: entity.name,
           });
         this.open();
       });
@@ -82,18 +82,18 @@ export class UpdateCategoryModalComponent
     this.form.disable();
     this.isSubmiting = true;
 
-    const updatedCategory: ICategory = {
+    const updatedEntity: ICategory = {
       id: this.id,
       name: this.formControls.name.value || '',
     };
 
-    this.categoriesService
-      .updateCategory(updatedCategory)
+    this.entitiesService
+      .update(updatedEntity)
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe(
-        (category) => {
+        (entity) => {
           this.close();
-          this.categoriesService.categoryEditedEvent.emit(category);
+          this.entitiesService.onEdited.emit(entity);
         },
         (error) => {
           this.form.enable();

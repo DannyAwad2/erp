@@ -25,51 +25,49 @@ import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 })
 export class CategoriesComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateCategoryModalComponent)
-  createModalRef!: CreateCategoryModalComponent;
-  categoies: ICategory[] = [];
-  fliterdCategories: ICategory[] = [];
+  createEntityModalRef!: CreateCategoryModalComponent;
+  entities: ICategory[] = [];
+  fliterdEntites: ICategory[] = [];
   isError = false;
   isLoading = false;
 
   constructor(
-    private categoiesService: CategoriesService,
+    private entityService: CategoriesService,
     private messages: MessagesService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.fetchCategories();
+    this.fetchEntities();
 
-    this.categoiesService.categoryCreatedEvent
+    this.entityService.onCreated
       .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((category) => {
-        this.categoies.unshift(category);
-        this.fliterdCategories = this.categoies;
+      .subscribe((entity) => {
+        this.entities.unshift(entity);
+        this.fliterdEntites = this.entities;
       });
 
-    this.categoiesService.categoryEditedEvent
+    this.entityService.onEdited
       .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((category) => {
-        const index = this.fliterdCategories.findIndex(
-          (p) => p.id === category.id
-        );
-        this.fliterdCategories.splice(index, 1, category);
-        this.fliterdCategories = this.categoies;
+      .subscribe((entity) => {
+        const index = this.fliterdEntites.findIndex((p) => p.id === entity.id);
+        this.fliterdEntites.splice(index, 1, entity);
+        this.fliterdEntites = this.entities;
         this.messages.toast('تم التعديل بنجاح', 'success');
       });
   }
 
-  fetchCategories() {
+  fetchEntities() {
     this.isError = false;
     this.isLoading = true;
-    this.categoiesService
-      .getCategoryList()
+    this.entityService
+      .getAll()
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe(
-        (categoies) => {
-          this.categoies = categoies;
-          this.fliterdCategories = categoies;
+        (entities) => {
+          this.entities = entities;
+          this.fliterdEntites = entities;
           this.isError = false;
           this.isLoading = false;
         },
@@ -80,25 +78,25 @@ export class CategoriesComponent extends Unsubscriber implements OnInit {
       );
   }
 
-  createCategory() {
-    this.createModalRef.open();
+  createEntity() {
+    this.createEntityModalRef.open();
   }
 
-  onEdit(category: ICategory) {
-    this.categoiesService.categorySelectedEvent.emit(category);
+  onEdit(entity: ICategory) {
+    this.entityService.onSelected.emit(entity);
   }
 
-  async onDelete(category: ICategory, index: number) {
-    const { isConfirmed } = await this.messages.deleteConfirm(category.name);
+  async onDelete(entity: ICategory, index: number) {
+    const { isConfirmed } = await this.messages.deleteConfirm(entity.name);
     if (isConfirmed) {
       this.isLoading = true;
-      this.categoiesService
-        .deleteCategory(category.id)
+      this.entityService
+        .delete(entity.id)
         .pipe(takeUntil(this.unsubscriber$))
         .subscribe(
           (res) => {
-            this.messages.deletedToast(category.name);
-            this.categoies.splice(index, 1);
+            this.messages.deletedToast(entity.name);
+            this.entities.splice(index, 1);
             this.isLoading = false;
             this.isError = false;
           },
@@ -112,11 +110,11 @@ export class CategoriesComponent extends Unsubscriber implements OnInit {
 
   onFilter(term: any) {
     if (term.target.value.trim() === '') {
-      this.fliterdCategories = this.categoies;
+      this.fliterdEntites = this.entities;
       return;
     }
-    this.fliterdCategories = this.categoies.filter((category) =>
-      category.name.includes(term.target.value)
+    this.fliterdEntites = this.entities.filter((entity) =>
+      entity.name.toLowerCase().includes(term.target.value.toLowerCase())
     );
   }
 }
