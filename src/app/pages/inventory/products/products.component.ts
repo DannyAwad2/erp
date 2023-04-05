@@ -83,7 +83,7 @@ export class ProductsComponent extends Unsubscriber implements OnInit {
   }
 
   onEdit(entity: IProduct) {
-    this.entityService.onSelected.emit(entity);
+    this.entityService.onSelected.next(entity);
   }
 
   async onDelete(entity: IProduct, index: number) {

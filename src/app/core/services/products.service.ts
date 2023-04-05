@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IProduct } from '../models/iproduct';
 import { ApiRoutes } from '../routes/api-routes';
@@ -10,9 +10,9 @@ import { MessagesService } from './messages.service';
   providedIn: 'root',
 })
 export class ProductsService {
-  onCreated = new EventEmitter<IProduct>();
-  onSelected = new EventEmitter<IProduct>();
-  onEdited = new EventEmitter<IProduct>();
+  onCreated = new Subject<IProduct>();
+  onSelected = new Subject<IProduct>();
+  onEdited = new Subject<IProduct>();
 
   private baseURL = environment.baseURL;
 
@@ -33,7 +33,7 @@ export class ProductsService {
       .pipe(
         tap((p) => {
           this.messages.createdToast(product.name);
-          this.onCreated.emit(p);
+          this.onCreated.next(p);
         })
       );
   }

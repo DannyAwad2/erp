@@ -93,7 +93,7 @@ export class UpdateCategoryModalComponent
       .subscribe(
         (entity) => {
           this.close();
-          this.entitiesService.onEdited.emit(entity);
+          this.entitiesService.onEdited.next(entity);
         },
         (error) => {
           this.form.enable();

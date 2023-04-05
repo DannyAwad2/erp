@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiRoutes } from '../routes/api-routes';
 import { MessagesService } from './messages.service';
@@ -10,9 +10,9 @@ import { ICategory } from '../models/icategory';
   providedIn: 'root',
 })
 export class CategoriesService {
-  onCreated = new EventEmitter<ICategory>();
-  onSelected = new EventEmitter<ICategory>();
-  onEdited = new EventEmitter<ICategory>();
+  onCreated = new Subject<ICategory>();
+  onSelected = new Subject<ICategory>();
+  onEdited = new Subject<ICategory>();
 
   private baseURL = environment.baseURL;
 
@@ -33,7 +33,7 @@ export class CategoriesService {
       .pipe(
         tap((p) => {
           this.messages.createdToast(name);
-          this.onCreated.emit(p);
+          this.onCreated.next(p);
         })
       );
   }

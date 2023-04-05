@@ -83,7 +83,7 @@ export class CategoriesComponent extends Unsubscriber implements OnInit {
   }
 
   onEdit(entity: ICategory) {
-    this.entityService.onSelected.emit(entity);
+    this.entityService.onSelected.next(entity);
   }
 
   async onDelete(entity: ICategory, index: number) {
