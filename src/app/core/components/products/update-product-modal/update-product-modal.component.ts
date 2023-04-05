@@ -45,7 +45,7 @@ export class UpdateProductModalComponent
 
   ngOnInit() {
     this.form = new FormGroup<ICreateProduct>({
-      category: new FormControl(null, Validators.required),
+      categoryId: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
       price: new FormControl(null, Validators.required),
       stock: new FormControl(null, Validators.required),
@@ -58,7 +58,7 @@ export class UpdateProductModalComponent
         (this.id = product.id),
           this.form.patchValue({
             name: product.name,
-            category: product.category,
+            categoryId: product.categoryId,
             cost: product.cost,
             price: product.price,
             stock: product.stock,
@@ -94,7 +94,7 @@ export class UpdateProductModalComponent
       id: this.id,
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
-      category: this.formControls.category.value || '',
+      categoryId: this.formControls.categoryId.value || '',
       name: this.formControls.name.value || '',
       published: new Date().toISOString(),
       stock: this.formControls.stock.value || 0,

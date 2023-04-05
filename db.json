@@ -1,13 +1,13 @@
 {
   "products": [
     {
-      "id": 1,
-      "cost": 300,
-      "price": 500,
-      "category": "type",
-      "name": "name",
-      "published": "2023-04-05T17:05:32.376Z",
-      "stock": 250
+      "id": 2,
+      "cost": 3500,
+      "price": 4650,
+      "category": "type 2",
+      "name": "name 2",
+      "published": "2023-04-05T19:06:10.490Z",
+      "stock": 3256
     }
   ],
   "categories": [

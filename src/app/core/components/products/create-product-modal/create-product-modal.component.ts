@@ -13,13 +13,22 @@ import { ProductsService } from '../../../services/products.service';
 import { IProduct } from '../../../models/iproduct';
 import { Unsubscriber } from '../../../utils/unsubscriber';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { Observable } from 'rxjs';
+import { ICategory } from 'src/app/core/models/icategory';
+import { CategoriesService } from 'src/app/core/services/categories.service';
 
 @Component({
   selector: 'app-create-product-modal',
   templateUrl: './create-product-modal.component.html',
   styleUrls: ['./create-product-modal.component.scss'],
   standalone: true,
-  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    NgbDatepickerModule,
+    ReactiveFormsModule,
+    CommonModule,
+    NgSelectModule,
+  ],
 })
 export class CreateProductModalComponent
   extends Unsubscriber
@@ -29,10 +38,12 @@ export class CreateProductModalComponent
   form!: FormGroup<ICreateProduct>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
+  categories$!: Observable<ICategory[]>;
 
   constructor(
     private entitiesService: ProductsService,
     private messages: MessagesService,
+    private categoriesService: CategoriesService,
     private modalService: NgbModal
   ) {
     super();
@@ -40,12 +51,13 @@ export class CreateProductModalComponent
 
   ngOnInit() {
     this.form = new FormGroup<ICreateProduct>({
-      category: new FormControl(null, Validators.required),
+      categoryId: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
       price: new FormControl(null, Validators.required),
       stock: new FormControl(null, Validators.required),
       cost: new FormControl(null, Validators.required),
     });
+    this.categories$ = this.categoriesService.getAll();
   }
 
   open() {
@@ -75,7 +87,7 @@ export class CreateProductModalComponent
       id: 0,
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
-      category: this.formControls.category.value || '',
+      categoryId: this.formControls.categoryId.value || '',
       name: this.formControls.name.value || '',
       published: new Date().toISOString(),
       stock: this.formControls.stock.value || 0,

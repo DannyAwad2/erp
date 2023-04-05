@@ -26,15 +26,24 @@
         </div>
         <div class="col">
           <label for="category">النوع <span class="text-danger">*</span></label>
-          <input
-            formControlName="category"
+          <ng-select
             id="category"
-            class="form-control form-control-sm"
+            [searchable]="true"
+            formControlName="category"
+            placeholder="أختر نوع"
             [ngClass]="{
               'is-invalid':
-                formControls.category.touched && formControls.category.invalid
+                formControls.categoryId.invalid &&
+                formControls.categoryId.touched
             }"
-          />
+            [items]="categories$ | async"
+            bindLabel="name"
+            bindValue="id"
+          >
+            <ng-template ng-option-tmp let-item="item">
+              <div>{{ item.name }}</div>
+            </ng-template>
+          </ng-select>
           <div class="invalid-feedback">مطلوب</div>
         </div>
       </div>
