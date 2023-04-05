@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import "bootstrap/scss/bootstrap";
-@import "remixicon/fonts/remixicon.css";
+@import "./assets/scss/config/creative/bootstrap.scss";
+@import "./assets/scss/config/creative/app.scss";
+@import "./assets/scss/icons.scss";
 
 @font-face {
   font-family: "AraJozoor"; /*a name to be used later*/

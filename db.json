@@ -1,4 +1,35 @@
 {
-  "products": [],
-  "categories": []
+  "products": [
+    {
+      "id": 1,
+      "cost": 300,
+      "price": 500,
+      "category": "type",
+      "name": "name",
+      "published": "2023-04-05T17:05:32.376Z",
+      "stock": 250
+    }
+  ],
+  "categories": [
+    {
+      "name": "cats",
+      "id": 1
+    },
+    {
+      "name": "cat",
+      "id": 2
+    },
+    {
+      "name": "drtrt",
+      "id": 3
+    },
+    {
+      "name": "hsht",
+      "id": 4
+    },
+    {
+      "name": "stneet",
+      "id": 5
+    }
+  ]
 }
