@@ -11,7 +11,7 @@
   <div class="modal-body">
     <form [formGroup]="form" (keyup.enter)="onSubmit()">
       <div class="row mb-2">
-        <div class="col">
+        <div class="col-md">
           <label for="name">الاسم <span class="text-danger">*</span></label>
           <input
             formControlName="name"
@@ -24,7 +24,7 @@
           />
           <div class="invalid-feedback">مطلوب</div>
         </div>
-        <div class="col">
+        <div class="col-md">
           <label for="category">النوع <span class="text-danger">*</span></label>
           <ng-select
             id="category"
