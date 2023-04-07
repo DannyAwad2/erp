@@ -4,6 +4,7 @@ export const AppRoutes = {
     base: 'inventory',
     products: 'products',
     categories: 'categories',
+    clients: 'clients',
     transactions: {
       base: 'transactions',
       purchases: {

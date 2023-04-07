@@ -27,6 +27,11 @@ const routes: Routes = [
         (m) => m.TransactionsModule
       ),
   },
+  {
+    path: AppRoutes.inventory.clients,
+    loadComponent: () =>
+      import('./clients/clients.component').then((c) => c.ClientsComponent),
+  },
 ];
 
 @NgModule({
