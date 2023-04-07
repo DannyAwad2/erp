@@ -5,5 +5,5 @@ export interface IProduct {
   stock: number;
   cost: number;
   published: string;
-  categoryId: string;
+  categoryId: number;
 }

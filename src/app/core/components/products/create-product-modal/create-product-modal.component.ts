@@ -87,7 +87,7 @@ export class CreateProductModalComponent
       id: 0,
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
-      categoryId: this.formControls.categoryId.value || '',
+      categoryId: this.formControls.categoryId.value || 0,
       name: this.formControls.name.value || '',
       published: new Date().toISOString(),
       stock: this.formControls.stock.value || 0,

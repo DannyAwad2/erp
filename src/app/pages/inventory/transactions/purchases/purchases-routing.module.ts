@@ -9,23 +9,19 @@ const routes: Routes = [
       import('./overview/overview.component').then((c) => c.OverviewComponent),
   },
   {
-    path: AppRoutes.inventory.products,
+    path: AppRoutes.inventory.transactions.purchases.new,
     loadComponent: () =>
-      import('./products/products.component').then((c) => c.ProductsComponent),
+      import('./new/new.component').then((c) => c.NewComponent),
   },
   {
-    path: AppRoutes.inventory.categories,
+    path: AppRoutes.inventory.transactions.purchases.edit,
     loadComponent: () =>
-      import('./categories/categories.component').then(
-        (c) => c.CategoriesComponent
-      ),
+      import('./edit/edit.component').then((c) => c.EditComponent),
   },
   {
-    path: AppRoutes.inventory.transactions.base,
-    loadChildren: () =>
-      import('./transactions/transactions.module').then(
-        (m) => m.TransactionsModule
-      ),
+    path: AppRoutes.inventory.transactions.purchases.return,
+    loadComponent: () =>
+      import('./return/return.component').then((c) => c.ReturnComponent),
   },
 ];
 
@@ -33,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InventoryRoutingModule {}
+export class PurchasesRoutingModule {}

@@ -4,10 +4,19 @@
       "id": 2,
       "cost": 3500,
       "price": 4650,
-      "category": "type 2",
-      "name": "name 2",
+      "category": "cat",
+      "name": "Cat",
       "published": "2023-04-05T19:06:10.490Z",
-      "stock": 3256
+      "stock": 5
+    },
+    {
+      "id": 3,
+      "cost": 3500,
+      "price": 4650,
+      "category": "type 2",
+      "name": "dog",
+      "published": "2023-04-05T19:06:10.490Z",
+      "stock": 5
     }
   ],
   "categories": [

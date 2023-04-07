@@ -5,5 +5,5 @@ export interface ICreateProduct {
   price: FormControl<number | null>;
   stock: FormControl<number | null>;
   cost: FormControl<number | null>;
-  categoryId: FormControl<string | null>;
+  categoryId: FormControl<number | null>;
 }
