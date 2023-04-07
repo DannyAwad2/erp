@@ -40,5 +40,25 @@
       "name": "stneet",
       "id": 5
     }
+  ],
+  "clients": [
+    {
+      "id": 1,
+      "name": "name",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "notes": "",
+      "website": ""
+    },
+    {
+      "id": 2,
+      "name": "name",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "notes": "",
+      "website": ""
+    }
   ]
 }
