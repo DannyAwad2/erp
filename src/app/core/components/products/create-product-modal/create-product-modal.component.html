@@ -26,24 +26,24 @@
         </div>
         <div class="col-md">
           <label for="category">النوع <span class="text-danger">*</span></label>
-          <ng-select
-            id="category"
-            [searchable]="true"
-            formControlName="category"
-            placeholder="أختر نوع"
+          <select
+            formControlName="categoryId"
+            class="form-select"
+            aria-label="Default select example"
             [ngClass]="{
               'is-invalid':
-                formControls.categoryId.invalid &&
-                formControls.categoryId.touched
+                formControls.categoryId.touched &&
+                formControls.categoryId.errors
             }"
-            [items]="categories$ | async"
-            bindLabel="name"
-            bindValue="id"
           >
-            <ng-template ng-option-tmp let-item="item">
-              <div>{{ item.name }}</div>
-            </ng-template>
-          </ng-select>
+            <option selected>اختار نوع</option>
+            <option
+              *ngFor="let category of categories$ | async"
+              [value]="category.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
           <div class="invalid-feedback">مطلوب</div>
         </div>
       </div>

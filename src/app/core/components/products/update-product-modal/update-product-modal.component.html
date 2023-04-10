@@ -28,16 +28,24 @@
           <label for="categoryId"
             >النوع <span class="text-danger">*</span></label
           >
-          <input
+          <select
             formControlName="categoryId"
-            id="category"
-            class="form-control form-control-sm"
+            class="form-select"
+            aria-label="Default select example"
             [ngClass]="{
               'is-invalid':
                 formControls.categoryId.touched &&
-                formControls.categoryId.invalid
+                formControls.categoryId.errors
             }"
-          />
+          >
+            <option selected>اختار نوع</option>
+            <option
+              *ngFor="let category of categories$ | async"
+              [value]="category.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
           <div class="invalid-feedback">مطلوب</div>
         </div>
       </div>

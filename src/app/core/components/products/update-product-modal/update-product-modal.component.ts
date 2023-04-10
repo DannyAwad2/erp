@@ -11,12 +11,14 @@ import {
   NgbDatepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 import { ICreateProduct } from 'src/app/core/models/form-models/icreate-product';
 import { ProductsService } from 'src/app/core/services/products.service';
 import { IProduct } from 'src/app/core/models/iproduct';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { CategoriesService } from 'src/app/core/services/categories.service';
+import { ICategory } from 'src/app/core/models/icategory';
 
 @Component({
   selector: 'app-update-product-modal',
@@ -34,11 +36,13 @@ export class UpdateProductModalComponent
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
   id: number = 0;
+  categories$!: Observable<ICategory[]>;
 
   constructor(
     private modalService: NgbModal,
     private entitiesService: ProductsService,
-    private messages: MessagesService
+    private messages: MessagesService,
+    private categoriesService: CategoriesService
   ) {
     super();
   }
@@ -51,6 +55,8 @@ export class UpdateProductModalComponent
       stock: new FormControl(null, Validators.required),
       cost: new FormControl(null, Validators.required),
     });
+
+    this.categories$ = this.categoriesService.getAll();
 
     this.entitiesService.onSelected
       .pipe(takeUntil(this.unsubscriber$))
