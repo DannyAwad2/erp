@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { TransactionsModule } from './pages/inventory/transactions/transactions.module';
-import { PurchasesModule } from './pages/inventory/transactions/purchases/purchases.module';
 import { CacheInterceptor } from './core/Interceptors/cache.Interceptor';
 import { RouterModule } from '@angular/router';
 
@@ -17,8 +15,6 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    TransactionsModule,
-    PurchasesModule,
     RouterModule,
   ],
   providers: [

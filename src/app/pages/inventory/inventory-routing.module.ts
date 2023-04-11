@@ -6,31 +6,19 @@ const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./overview/overview.component').then((c) => c.OverviewComponent),
+      import('./pages/overview/overview.component').then(
+        (c) => c.OverviewComponent
+      ),
   },
   {
     path: AppRoutes.inventory.products,
-    loadComponent: () =>
-      import('./products/products.component').then((c) => c.ProductsComponent),
-  },
-  {
-    path: AppRoutes.inventory.categories,
-    loadComponent: () =>
-      import('./categories/categories.component').then(
-        (c) => c.CategoriesComponent
-      ),
-  },
-  {
-    path: AppRoutes.inventory.transactions.base,
     loadChildren: () =>
-      import('./transactions/transactions.module').then(
-        (m) => m.TransactionsModule
-      ),
+      import('./pages/products/products.module').then((m) => m.ProductsModule),
   },
   {
     path: AppRoutes.inventory.clients,
-    loadComponent: () =>
-      import('./clients/clients.component').then((c) => c.ClientsComponent),
+    loadChildren: () =>
+      import('./pages/clients/clients.module').then((m) => m.ClientsModule),
   },
 ];
 

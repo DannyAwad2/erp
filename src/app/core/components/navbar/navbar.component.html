@@ -9,14 +9,38 @@
         <li class="nav-item">
           <a routerLink="/" class="nav-link">الرئيسية</a>
         </li>
-        <li class="nav-item">
-          <a routerLink="/inventory/products" class="nav-link">المنتجات</a>
+        <li ngbDropdown class="nav-item dropdown">
+          <button
+            ngbDropdownToggle
+            class="nav-link dropdown-toggle"
+            role="button"
+          >
+            المخزن
+          </button>
+          <ul ngbDropdownMenu class="dropdown-menu">
+            <li ngbDropdownItem>
+              <a class="dropdown-item" routerLink="/inventory/products"
+                >المنتجات</a
+              >
+            </li>
+            <li ngbDropdownItem>
+              <a class="dropdown-item" routerLink="/inventory/clients"
+                >العملاء</a
+              >
+            </li>
+            <li ngbDropdownItem>
+              <a class="dropdown-item" routerLink="/inventory/vendors"
+                >الموردون</a
+              >
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
-          <a routerLink="/inventory/categories" class="nav-link">الانواع</a>
+          <a routerLink="/auth/signup" class="nav-link">تسجيل</a>
         </li>
-        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+        <li class="nav-item">
+          <a routerLink="/auth/signin" class="nav-link">تسجيل دخول</a>
+        </li>
       </ul>
     </header>
   </div>

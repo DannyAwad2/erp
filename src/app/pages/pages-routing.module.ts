@@ -4,6 +4,10 @@ import { AppRoutes } from '../core/routes/app-routes';
 
 const routes: Routes = [
   {
+    path: AppRoutes.auth.base,
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
     path: AppRoutes.home,
     loadComponent: () =>
       import('./home/home.component').then((c) => c.HomeComponent),
@@ -20,3 +24,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class PagesRoutingModule {}
+``;

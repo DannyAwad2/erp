@@ -1,4 +1,5 @@
 export const AppRoutes = {
+  auth: { base: 'auth' },
   home: '',
   inventory: {
     base: 'inventory',
