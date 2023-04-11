@@ -7,22 +7,22 @@ export class CacheService {
   cache: any = {};
 
   // set the cache
-  setCache(key: string, value: any) {
+  set(key: string, value: any) {
     this.cache[key] = value;
   }
 
   // get the cache
-  getCache(key: string) {
+  get(key: string) {
     return this.cache[key];
   }
 
   // clear the cache
-  clearCache(key: string) {
+  clear(key: string) {
     this.cache[key] = null;
   }
 
   // clear all cache
-  clearAllCache() {
+  clearAll() {
     this.cache = {};
   }
 }

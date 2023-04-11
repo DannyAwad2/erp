@@ -18,7 +18,7 @@ export class CacheInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (req.method === 'GET') {
-      const cache = this.cacheService.getCache(req.url);
+      const cache = this.cacheService.get(req.url);
       if (cache) {
         return of(cache);
       }
@@ -27,7 +27,7 @@ export class CacheInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap((r) => {
         if (r.type === HttpEventType.Response) {
-          this.cacheService.setCache(r.url || '', r);
+          this.cacheService.set(r.url || '', r);
         }
       })
     );
