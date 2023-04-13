@@ -1,0 +1,116 @@
+<ng-template #content>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+    <h4 class="modal-title">إضافة منتج</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (keyup.enter)="onSubmit()">
+      <div class="row mb-2">
+        <div class="col-md">
+          <label for="name">الاسم <span class="text-danger">*</span></label>
+          <input
+            formControlName="name"
+            id="name"
+            class="form-control form-control-sm"
+            [ngClass]="{
+              'is-invalid':
+                formControls.name.touched && formControls.name.invalid
+            }"
+          />
+          <div class="invalid-feedback">مطلوب</div>
+        </div>
+        <div class="col-md">
+          <label for="category">النوع <span class="text-danger">*</span></label>
+          <select
+            formControlName="categoryId"
+            class="form-select"
+            aria-label="Default select example"
+            [ngClass]="{
+              'is-invalid':
+                formControls.categoryId.touched &&
+                formControls.categoryId.errors
+            }"
+          >
+            <option selected>اختار نوع</option>
+            <option
+              *ngFor="let category of categories$ | async"
+              [value]="category.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback">مطلوب</div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col">
+          <label for="cost">التكلفة <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            formControlName="cost"
+            id="cost"
+            class="form-control form-control-sm"
+            [ngClass]="{
+              'is-invalid':
+                formControls.cost.touched && formControls.cost.invalid
+            }"
+          />
+          <div class="invalid-feedback">مطلوب</div>
+        </div>
+        <div class="col">
+          <label for="price">السعر <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            formControlName="price"
+            id="price"
+            class="form-control form-control-sm"
+            [ngClass]="{
+              'is-invalid':
+                formControls.price.touched && formControls.price.invalid
+            }"
+          />
+          <div class="invalid-feedback">مطلوب</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="stock">الكمية <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            formControlName="stock"
+            id="stock"
+            class="form-control form-control-sm"
+            [ngClass]="{
+              'is-invalid':
+                formControls.stock.touched && formControls.stock.invalid
+            }"
+          />
+          <div class="invalid-feedback">مطلوب</div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="close()">إلغاء</button>
+    <button
+      [disabled]="isSubmiting || form.invalid"
+      type="button"
+      class="btn btn-success"
+      (click)="onSubmit()"
+    >
+      <div
+        *ngIf="isSubmiting; else loading"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <ng-template #loading> حفظ </ng-template>
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,115 @@
+<div class="card mb-3">
+  <div class="card-header border-0">
+    <div class="row g-4">
+      <div class="col">
+        <div class="d-flex justify-content-sm-start">
+          <input
+            type="search"
+            type="text"
+            placeholder="اسم التصنيف"
+            class="form-control"
+            (keyup)="onFilter($event)"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div style="text-align: left">
+          <button
+            (click)="createEntity()"
+            class="btn btn-success"
+            id="addCategory-btn"
+          >
+            <i class="ri-add-line align-bottom me-1"></i> إضافة تصنيف جديد
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="isError || entities.length === 0 || isLoading" class="card">
+  <div class="card-body">
+    <table [hidden]="isLoading" class="table table-striped table-bordered">
+      <thead>
+        <tr class="table-secondary">
+          <th scope="col">الاسم</th>
+          <th scope="col">تعديل</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entity of fliterdEntites; let i = index">
+          <td>{{ entity.name }}</td>
+          <td>
+            <div ngbDropdown container="body">
+              <button
+                class="btn btn-secondary btn-sm dropdown"
+                type="button"
+                ngbDropdownToggle
+              >
+                تعديل
+              </button>
+              <ul ngbDropdownMenu>
+                <li>
+                  <button
+                    (click)="onEdit(entity)"
+                    class="dropdown-item"
+                    href="#"
+                  >
+                    <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                    تعديل
+                  </button>
+                </li>
+                <li>
+                  <button
+                    (click)="onDelete(entity, i)"
+                    class="dropdown-item"
+                    href="#"
+                  >
+                    <i
+                      class="ri-delete-bin-fill align-bottom me-2 text-danger"
+                    ></i>
+                    مسح
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Loading -->
+<div class="text-center p-5" [hidden]="!isLoading || isError">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">isLoading...</span>
+  </div>
+</div>
+
+<!-- No search results -->
+<div
+  class="alert alert-warning text-center"
+  *ngIf="fliterdEntites.length === 0 && entities.length > 0 && !isError"
+>
+  لاتوجد نتائج بحث
+</div>
+
+<!-- No Data -->
+<div
+  class="alert alert-warning text-center"
+  *ngIf="entities.length === 0 && !isLoading"
+>
+  لم يتم إضافة اي تصنيفات بعد
+</div>
+
+<!-- Server Error-->
+<div class="alert alert-danger text-center" *ngIf="isError">
+  خطأ في الاتصال بالسيرفر, اضغط
+  <button class="btn" href="#" (click)="fetchEntities()">
+    هنا للمحاولة مرة اخرى
+  </button>
+</div>
+
+<app-create-category-modal></app-create-category-modal>
+<app-update-category-modal></app-update-category-modal>

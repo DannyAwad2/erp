@@ -1,3 +1,47 @@
-<p>
-  navbar works!
-</p>
+<div class="border-bottom mb-4">
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3">
+      <a href="/" class="fs-4 text-decoration-none flex-grow-1">
+        Simple header
+      </a>
+
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a routerLink="/" class="nav-link">الرئيسية</a>
+        </li>
+        <li ngbDropdown class="nav-item dropdown">
+          <button
+            ngbDropdownToggle
+            class="nav-link dropdown-toggle"
+            role="button"
+          >
+            المخزن
+          </button>
+          <ul ngbDropdownMenu class="dropdown-menu">
+            <li ngbDropdownItem>
+              <a class="dropdown-item" routerLink="/inventory/products"
+                >المنتجات</a
+              >
+            </li>
+            <li ngbDropdownItem>
+              <a class="dropdown-item" routerLink="/inventory/clients"
+                >العملاء</a
+              >
+            </li>
+            <li ngbDropdownItem>
+              <a class="dropdown-item" routerLink="/inventory/vendors"
+                >الموردون</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/auth/signup" class="nav-link">تسجيل</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/auth/signin" class="nav-link">تسجيل دخول</a>
+        </li>
+      </ul>
+    </header>
+  </div>
+</div>

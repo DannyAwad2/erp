@@ -1,0 +1,125 @@
+<div class="card mb-3">
+  <div class="card-header border-0">
+    <div class="row g-4">
+      <div class="col">
+        <div class="d-flex justify-content-sm-start">
+          <input
+            type="search"
+            type="text"
+            placeholder="اسم المنتج"
+            class="form-control"
+            (keyup)="onFilter($event)"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div style="text-align: left">
+          <button
+            (click)="createEntity()"
+            class="btn btn-success"
+            id="addproduct-btn"
+          >
+            <i class="ri-add-line align-bottom me-1"></i> إضافة منتج
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="isError || entities.length === 0 || isLoading" class="card">
+  <div class="card-body">
+    <table [hidden]="isLoading" class="table table-striped table-bordered">
+      <thead>
+        <tr class="table-secondary">
+          <th scope="col">الاسم</th>
+          <th scope="col">السعر</th>
+          <th scope="col">الكمية</th>
+          <th scope="col">التكلفة</th>
+          <th scope="col">النوع</th>
+          <th scope="col">التاريخ</th>
+          <th scope="col">تعديل</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of fliterdEntites; let i = index">
+          <td style="width: 18%">{{ product.name }}</td>
+          <td style="min-width: 90px">{{ product.price | number }}</td>
+          <td style="min-width: 90px">{{ product.stock | number }}</td>
+          <td style="min-width: 90px">{{ product.cost | number }}</td>
+          <td style="min-width: 90px">{{ product.categoryId }}</td>
+          <td style="min-width: 90px">
+            {{ product.published | date : "short" }}
+          </td>
+          <td>
+            <div ngbDropdown container="body">
+              <button
+                class="btn btn-secondary btn-sm dropdown"
+                type="button"
+                ngbDropdownToggle
+              >
+                تعديل
+              </button>
+              <ul ngbDropdownMenu>
+                <li>
+                  <button
+                    (click)="onEdit(product)"
+                    class="dropdown-item"
+                    href="#"
+                  >
+                    <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                    تعديل
+                  </button>
+                </li>
+                <li>
+                  <button
+                    (click)="onDelete(product, i)"
+                    class="dropdown-item"
+                    href="#"
+                  >
+                    <i
+                      class="ri-delete-bin-fill align-bottom me-2 text-danger"
+                    ></i>
+                    مسح
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- No search results -->
+    <div
+      class="alert alert-warning text-center"
+      *ngIf="fliterdEntites.length === 0 && entities.length > 0 && !isError"
+    >
+      لاتوجد نتائج بحث
+    </div>
+  </div>
+</div>
+<!-- Loading -->
+<div class="text-center p-5" [hidden]="!isLoading || isError">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">isLoading...</span>
+  </div>
+</div>
+
+<!-- No Data -->
+<div
+  class="alert alert-warning text-center"
+  *ngIf="entities.length === 0 && !isLoading"
+>
+  لم يتم إضافة اي منتجات بعد
+</div>
+
+<!-- Server Error-->
+<div class="alert alert-danger text-center" *ngIf="isError">
+  خطأ في الاتصال بالسيرفر, اضغط
+  <button class="btn" href="#" (click)="fetchEntities()">
+    هنا للمحاولة مرة اخرى
+  </button>
+</div>
+
+<app-create-product-modal></app-create-product-modal>
+<app-update-product-modal></app-update-product-modal>

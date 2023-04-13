@@ -1,0 +1,73 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "cost": 3500,
+      "price": 4000,
+      "categoryId": "3",
+      "name": "cats",
+      "published": "2023-04-10T08:10:10.211Z",
+      "stock": 5
+    },
+    {
+      "id": 2,
+      "cost": 3500,
+      "price": 4000,
+      "categoryId": "1",
+      "name": "dogs",
+      "published": "2023-04-10T08:06:39.194Z",
+      "stock": 5
+    },
+    {
+      "id": 3,
+      "cost": 3500,
+      "price": 4000,
+      "categoryId": "1",
+      "name": "donkeys",
+      "published": "2023-04-10T08:06:39.194Z",
+      "stock": 5
+    }
+  ],
+  "categories": [
+    {
+      "name": "cats",
+      "id": 1
+    },
+    {
+      "name": "cat",
+      "id": 2
+    },
+    {
+      "name": "drtrt",
+      "id": 3
+    },
+    {
+      "name": "hsht",
+      "id": 4
+    },
+    {
+      "name": "stneet",
+      "id": 5
+    }
+  ],
+  "clients": [
+    {
+      "id": 1,
+      "name": "name",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "notes": "",
+      "website": ""
+    },
+    {
+      "id": 2,
+      "name": "name",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "notes": "",
+      "website": ""
+    }
+  ]
+}
