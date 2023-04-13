@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IClient } from '../models/iclient';
 import { ApiRoutes } from '../routes/api-routes';
+import { IClientAccountSummary } from '../models/iclient-account-summary';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,13 @@ export class ClientsService {
   getAll() {
     return this.http.get<IClient[]>(this.baseUrl);
   }
+
+  getAccountsSummary() {
+    return this.http.get<IClientAccountSummary[]>(
+      environment.baseURL + '/clients_summary'
+    );
+  }
+
   get(id: number) {
     return this.http.get<IClient>(this.baseUrl + '/' + id);
   }

@@ -26,178 +26,62 @@
     </div>
     <div class="card">
       <div class="card-header">
-        <div ngbDropdown class="mb-2">
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-info btn-block"
-            ngbDropdownToggle
+        <form [formGroup]="filterForm">
+          <select
+            formControlName="type"
+            role="button"
+            class="form-select form-select-sm mb-3"
+            aria-label="Default select example"
           >
-            تصفية العملاء
-          </button>
-          <div ngbDropdownMenu>
-            <button ngbDropdownItem>عميل جديد</button>
-            <li class="dropdown-divider"></li>
-            <button ngbDropdownItem>بيع مباشر</button>
-            <button ngbDropdownItem>بيع بالاجل</button>
-            <button ngbDropdownItem>مردودات المبيعات</button>
+            <option selected value="all">كل العملاء</option>
+            <option value="withOpenBalance">العملاء برصيد مفتوح</option>
+          </select>
+          <div class="search-box">
+            <input
+              formControlName="name"
+              type="text"
+              class="form-control form-control-sm search"
+              placeholder="  ابحث عن عميل ..."
+            />
+            <i class="ri-search-line search-icon"></i>
           </div>
-        </div>
-        <div class="search-box">
-          <input
-            type="text"
-            class="form-control form-control-sm search"
-            placeholder="  ابحث عن عميل ..."
-          />
-          <i class="ri-search-line search-icon"></i>
-        </div>
+        </form>
       </div>
       <div class="card-body table-scroll">
-        <table class="table table-striped table-hover table-bordered table-sm">
-          <thead class="text-muted bg-soft-light">
-            <tr>
-              <th>الاسم</th>
-              <th>الرصيد</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Mark Otto</td>
-              <td>{{ 3500 | number }}</td>
-            </tr>
-            <tr>
-              <td>Jacob Thornton</td>
-              <td>{{ 4500 | number }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <ng-container *ngIf="isDataLoaded; else loading">
+          <ng-container *ngIf="filterdAccountsSummary.length > 0; else noData">
+            <table
+              class="table table-striped table-hover table-bordered table-sm"
+            >
+              <thead class="text-muted bg-soft-light">
+                <tr>
+                  <th>الاسم</th>
+                  <th>الرصيد</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let account of filterdAccountsSummary">
+                  <td>{{ account.name }}</td>
+                  <td>{{ account.balance | number }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-template #noData>
+            <div class="text-center">
+              <img
+                src="assets/images/users/user-dummy-img.jpg"
+                alt="لا يوجد عملاء"
+                class="img-fluid"
+                width="100"
+              />
+              <h4 class="mt-4">لا يوجد عملاء</h4>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-template #loading>
+          <app-spinner></app-spinner>
+        </ng-template>
       </div>
     </div>
   </div>

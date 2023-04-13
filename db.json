@@ -69,5 +69,127 @@
       "notes": "",
       "website": ""
     }
+  ],
+  "clients_summary": [
+    {
+      "name": "Adrain",
+      "balance": "332.19",
+      "id": 15171,
+      "user_id": 11232
+    },
+    {
+      "name": "Irving",
+      "balance": "938.76",
+      "id": 26628,
+      "user_id": 91956
+    },
+    {
+      "name": "Chad",
+      "balance": "581.50",
+      "id": 93561,
+      "user_id": 98629
+    },
+    {
+      "name": "Luna",
+      "balance": "474.50",
+      "id": 5732,
+      "user_id": 4483
+    },
+    {
+      "name": "Luther",
+      "balance": "0",
+      "id": 20226,
+      "user_id": 4703
+    },
+    {
+      "name": "Ebba",
+      "balance": "0",
+      "id": 19847,
+      "user_id": 38485
+    },
+    {
+      "name": "Simeon",
+      "balance": "0",
+      "id": 39208,
+      "user_id": 5632
+    },
+    {
+      "name": "Velva",
+      "balance": "0",
+      "id": 86405,
+      "user_id": 86400
+    },
+    {
+      "name": "Dixie",
+      "balance": "0",
+      "id": 63690,
+      "user_id": 76731
+    },
+    {
+      "name": "Andre",
+      "balance": "136.28",
+      "id": 29441,
+      "user_id": 53028
+    },
+    {
+      "name": "Timmy",
+      "balance": "174.33",
+      "id": 14320,
+      "user_id": 37105
+    },
+    {
+      "name": "Lawson",
+      "balance": "546.68",
+      "id": 33517,
+      "user_id": 12893
+    },
+    {
+      "name": "Pinkie",
+      "balance": "226.68",
+      "id": 89712,
+      "user_id": 33211
+    },
+    {
+      "name": "Wyman",
+      "balance": "122.26",
+      "id": 52148,
+      "user_id": 34780
+    },
+    {
+      "name": "Jaeden",
+      "balance": "339.12",
+      "id": 73104,
+      "user_id": 72797
+    },
+    {
+      "name": "Karelle",
+      "balance": "202.50",
+      "id": 81618,
+      "user_id": 58250
+    },
+    {
+      "name": "Damien",
+      "balance": "913.98",
+      "id": 45751,
+      "user_id": 93552
+    },
+    {
+      "name": "Angelita",
+      "balance": "7.25",
+      "id": 90527,
+      "user_id": 14824
+    },
+    {
+      "name": "Kayleigh",
+      "balance": "219.46",
+      "id": 57559,
+      "user_id": 48000
+    },
+    {
+      "name": "Modesta",
+      "balance": "904.30",
+      "id": 29966,
+      "user_id": 77035
+    }
   ]
 }
