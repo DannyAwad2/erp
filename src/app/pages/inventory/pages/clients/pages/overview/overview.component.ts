@@ -62,16 +62,34 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
       }
 
       this.filterdAccountsSummary = this.accountsSummary.filter((account) => {
-        if (
-          value.name &&
-          !account.name.toLowerCase().includes(value.name.toLocaleLowerCase())
-        ) {
-          return false;
+        if (value.type !== 'all') {
+          if (account.balance > 0) {
+            if (!value.name) {
+              return true;
+            }
+            if (
+              account.name
+                .toLowerCase()
+                .includes(value.name.toLocaleLowerCase())
+            ) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+        } else {
+          if (!value.name) {
+            return true;
+          }
+          if (
+            account.name.toLowerCase().includes(value.name.toLocaleLowerCase())
+          ) {
+            return true;
+          } else {
+            return false;
+          }
         }
-        if (value.type !== 'all' && account.balance === 0) {
-          return false;
-        }
-        return true;
+        return false;
       });
     });
   }
