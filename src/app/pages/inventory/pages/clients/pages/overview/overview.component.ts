@@ -67,15 +67,11 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
             if (!value.name) {
               return true;
             }
-            if (
-              account.name
-                .toLowerCase()
-                .includes(value.name.toLocaleLowerCase())
-            ) {
-              return true;
-            } else {
-              return false;
-            }
+            return account.name
+              .toLowerCase()
+              .includes(value.name.toLocaleLowerCase())
+              ? true
+              : false;
           }
         } else {
           if (!value.name) {
