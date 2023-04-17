@@ -17,7 +17,7 @@
             <button ngbDropdownItem>مردودات المبيعات</button>
           </div>
         </div>
-        <button (click)="openModal()" class="btn btn-outline-info">
+        <button (click)="openCreateModal()" class="btn btn-outline-info">
           عميل جديد
 
           <i class="ri-add-line"></i>
@@ -60,7 +60,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let account of filterdAccountsSummary">
+                <tr
+                  style="cursor: pointer; user-select: none"
+                  (click)="onSelect(account.user_id)"
+                  *ngFor="let account of filterdAccountsSummary"
+                >
                   <td>{{ account.name }}</td>
                   <td>{{ account.balance | number }}</td>
                 </tr>
@@ -86,59 +90,10 @@
     </div>
   </div>
   <div class="col-xl-8">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col text-center">
-            <button class="btn btn-sm bg-soft-warning text-warning rounded">
-              <i class="ri-pencil-line"></i>
-            </button>
-          </div>
-          <div class="col-11">
-            <div class="table-responsive">
-              <table class="table table-nowrap mb-0">
-                <tbody>
-                  <tr>
-                    <th scope="row">الاسم:</th>
-                    <td>Mark Jhonsan</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">رقم الهاتف :</th>
-                    <td>(123) 123 1234</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">العنوان :</th>
-                    <td>Bay Area, San Francisco, CA</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">الايميل :</th>
-                    <td>
-                      <a href="#" class="text-primary"> example@example.com</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">ملاحظات :</th>
-                    <td>لا يوجد.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <ag-grid-angular
-          style="width: 100%; height: 51.8vh"
-          class="ag-theme-alpine"
-          [rowData]="rowData"
-          [columnDefs]="columnDefs"
-          [defaultColDef]="defaultColDef"
-          [enableRtl]="true"
-        >
-        </ag-grid-angular>
-      </div>
-    </div>
+    <app-client-info-card
+      [client]="selectedClient"
+      [isLoading]="isLoading"
+      (edit)="openEditModal()"
+    ></app-client-info-card>
   </div>
 </div>

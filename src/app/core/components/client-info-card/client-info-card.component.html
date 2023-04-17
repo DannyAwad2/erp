@@ -1,0 +1,142 @@
+<div *ngIf="!client && !isLoading" class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h4>بيانات العميل</h4>
+      </div>
+      <div class="col text-start">
+        <button
+          disabled
+          class="btn btn-sm bg-soft-warning text-warning rounded"
+        >
+          <i class="ri-pencil-line"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-nowrap mb-0">
+          <tbody>
+            <tr>
+              <th scope="row">الاسم:</th>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">رقم الهاتف :</th>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">العنوان :</th>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">الايميل :</th>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">ملاحظات :</th>
+              <td>-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="client" class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h4>بيانات العميل</h4>
+      </div>
+      <div class="col text-start">
+        <button
+          (click)="openEditModal()"
+          class="btn btn-sm bg-soft-warning text-warning rounded"
+        >
+          <i class="ri-pencil-line"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-nowrap mb-0">
+          <tbody>
+            <tr>
+              <th scope="row">الاسم:</th>
+              <td>{{ client.name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">رقم الهاتف :</th>
+              <td>{{ client.phone || "لا يوجد" }}</td>
+            </tr>
+            <tr>
+              <th scope="row">العنوان :</th>
+              <td>{{ client.address || "لا يوجد" }}</td>
+            </tr>
+            <tr>
+              <th scope="row">الايميل :</th>
+              <td>
+                <a href="#" class="text-primary">
+                  {{ client.address || "لا يوجد" }}</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">ملاحظات :</th>
+              <td>{{ client.notes || "لا يوجد" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="rowData && client" class="card">
+  <div class="card-header">المعملات المالية مع العميل</div>
+  <div class="card-body">
+    <ag-grid-angular
+      style="width: 100%; height: 51.8vh"
+      class="ag-theme-alpine"
+      [rowData]="client ? rowData : []"
+      [columnDefs]="columnDefs"
+      [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+      [overlayLoadingTemplate]="overlayLoadingTemplate"
+      [defaultColDef]="defaultColDef"
+      [enableRtl]="true"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+
+<div *ngIf="!client && !isLoading" class="card">
+  <div class="card-header">المعملات المالية مع العميل</div>
+  <div class="card-body">
+    <ag-grid-angular
+      style="width: 100%; height: 51.8vh"
+      class="ag-theme-alpine"
+      [rowData]="[]"
+      [columnDefs]="columnDefs"
+      [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+      [overlayLoadingTemplate]="overlayLoadingTemplate"
+      [defaultColDef]="defaultColDef"
+      [enableRtl]="true"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="card">
+  <div class="card-body">
+    <app-spinner></app-spinner>
+    <p style="text-align: center; margin-bottom: 2rem">
+      جار تحميل بيانات العميل
+    </p>
+  </div>
+</div>

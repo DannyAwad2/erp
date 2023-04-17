@@ -117,6 +117,10 @@ export class MessagesService {
     );
   }
   fechingDataError() {
-    this.popup('Error', `Error while loading data, please try again.`, 'error');
+    this.popup(
+      'خطأ!',
+      `حدث خطأ اثناء تحميل البيانات, الرجاء المحاولة مرة اخري`,
+      'error'
+    );
   }
 }

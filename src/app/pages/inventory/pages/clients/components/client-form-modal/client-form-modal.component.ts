@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs';
+import { ClientInfoCardComponent } from 'src/app/core/components/client-info-card/client-info-card.component';
 import { IClientForm } from 'src/app/core/models/form-models/Iclient-form';
 import { IClient } from 'src/app/core/models/iclient';
 import { ClientsService } from 'src/app/core/services/clients.service';
@@ -85,20 +86,37 @@ export class ClientFormModalComponent extends Unsubscriber implements OnInit {
       website: this.formControls.website.value || '',
     };
 
-    this.entitiesService
-      .create(freshEntity)
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe(
-        () => {
-          this.messages.createdToast(this.formControls.name.value || '');
-          this.onClose();
-        },
-        () => {
-          this.form.enable();
-          this.isSubmiting = false;
-          this.messages.toast('خطأ في الشبكة', 'error');
-        }
-      );
+    if (this.client) {
+      this.entitiesService
+        .update(freshEntity)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe(
+          () => {
+            this.messages.toast('!تم الحفظ بنجاح', 'success');
+            this.onClose();
+          },
+          () => {
+            this.form.enable();
+            this.isSubmiting = false;
+            this.messages.toast('خطأ في الشبكة', 'error');
+          }
+        );
+    } else {
+      this.entitiesService
+        .create(freshEntity)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe(
+          () => {
+            this.messages.createdToast(this.formControls.name.value || '');
+            this.onClose();
+          },
+          () => {
+            this.form.enable();
+            this.isSubmiting = false;
+            this.messages.toast('خطأ في الشبكة', 'error');
+          }
+        );
+    }
   }
 
   get formControls() {

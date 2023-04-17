@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { IClient } from '../models/iclient';
 import { ApiRoutes } from '../routes/api-routes';
 import { IClientAccountSummary } from '../models/iclient-account-summary';
+import { ITransaction } from '../models/itransaction';
+import { delay, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,13 +27,49 @@ export class ClientsService {
   get(id: number) {
     return this.http.get<IClient>(this.baseUrl + '/' + id);
   }
+
   create(client: IClient) {
     return this.http.post<IClient>(this.baseUrl, client);
   }
+
   update(client: IClient) {
     return this.http.put<IClient>(this.baseUrl + '/' + client.id, client);
   }
+
   delete(id: number) {
     return this.http.delete<IClient>(this.baseUrl + '/' + id);
+  }
+
+  getAllTrans(clientId: number) {
+    const rowData: ITransaction[] = [
+      {
+        type: 'Toyota',
+        id: 'Celica',
+        date: new Date().toLocaleString(),
+        account: 'Celica',
+      },
+      {
+        type: 'Toyota',
+        id: 'Celica',
+        date: new Date().toLocaleString(),
+        account: 'Celica',
+      },
+      {
+        type: 'Toyota',
+        id: 'Celica',
+        date: new Date().toLocaleString(),
+        account: 'Celica',
+      },
+      {
+        type: 'Toyota',
+        id: 'Celica',
+        date: new Date().toLocaleString(),
+        account: 'Celica',
+      },
+    ];
+    return of(rowData).pipe(delay(2000));
+    return this.http.get<ITransaction[]>(
+      this.baseUrl + '/transactions/' + clientId
+    );
   }
 }
