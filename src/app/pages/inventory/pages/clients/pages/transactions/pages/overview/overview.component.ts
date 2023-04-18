@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { ITransaction } from 'src/app/core/models/itransaction';
@@ -8,7 +9,7 @@ import { ITransaction } from 'src/app/core/models/itransaction';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
   standalone: true,
-  imports: [AgGridModule],
+  imports: [AgGridModule, NgbDropdownModule],
 })
 export class OverviewComponent {
   defaultColDef: ColDef = {
