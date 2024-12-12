@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs';
-import { ClientInfoCardComponent } from 'src/app/core/components/client-info-card/client-info-card.component';
 import { IClientForm } from 'src/app/core/models/form-models/Iclient-form';
 import { IClient } from 'src/app/core/models/iclient';
 import { ClientsService } from 'src/app/core/services/clients.service';
@@ -16,10 +15,10 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
 @Component({
-    selector: 'app-client-form-modal',
-    templateUrl: './client-form-modal.component.html',
-    styleUrls: ['./client-form-modal.component.scss'],
-    imports: [CommonModule, ReactiveFormsModule]
+  selector: 'app-client-form-modal',
+  templateUrl: './client-form-modal.component.html',
+  styleUrls: ['./client-form-modal.component.scss'],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ClientFormModalComponent extends Unsubscriber implements OnInit {
   @Input() client!: IClient;
