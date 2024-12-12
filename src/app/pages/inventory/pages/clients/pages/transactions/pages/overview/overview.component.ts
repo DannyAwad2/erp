@@ -5,11 +5,10 @@ import { ColDef } from 'ag-grid-community';
 import { ITransaction } from 'src/app/core/models/itransaction';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
-  standalone: true,
-  imports: [AgGridModule, NgbDropdownModule],
+    selector: 'app-overview',
+    templateUrl: './overview.component.html',
+    styleUrls: ['./overview.component.scss'],
+    imports: [AgGridModule, NgbDropdownModule]
 })
 export class OverviewComponent {
   defaultColDef: ColDef = {

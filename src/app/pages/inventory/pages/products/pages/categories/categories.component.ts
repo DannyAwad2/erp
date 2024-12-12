@@ -11,17 +11,16 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss'],
-  standalone: true,
-  imports: [
-    CreateCategoryModalComponent,
-    UpdateCategoryModalComponent,
-    CommonModule,
-    NgbDropdownModule,
-    FormsModule,
-  ],
+    selector: 'app-categories',
+    templateUrl: './categories.component.html',
+    styleUrls: ['./categories.component.scss'],
+    imports: [
+        CreateCategoryModalComponent,
+        UpdateCategoryModalComponent,
+        CommonModule,
+        NgbDropdownModule,
+        FormsModule,
+    ]
 })
 export class CategoriesComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateCategoryModalComponent)

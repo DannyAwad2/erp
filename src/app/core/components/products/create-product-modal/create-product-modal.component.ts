@@ -19,16 +19,15 @@ import { ICategory } from 'src/app/core/models/icategory';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 
 @Component({
-  selector: 'app-create-product-modal',
-  templateUrl: './create-product-modal.component.html',
-  styleUrls: ['./create-product-modal.component.scss'],
-  standalone: true,
-  imports: [
-    NgbDatepickerModule,
-    ReactiveFormsModule,
-    CommonModule,
-    NgSelectModule,
-  ],
+    selector: 'app-create-product-modal',
+    templateUrl: './create-product-modal.component.html',
+    styleUrls: ['./create-product-modal.component.scss'],
+    imports: [
+        NgbDatepickerModule,
+        ReactiveFormsModule,
+        CommonModule,
+        NgSelectModule,
+    ]
 })
 export class CreateProductModalComponent
   extends Unsubscriber

@@ -15,11 +15,10 @@ import { ClientsService } from '../../services/clients.service';
 import { ITransaction } from '../../models/itransaction';
 
 @Component({
-  selector: 'app-client-info-card',
-  templateUrl: './client-info-card.component.html',
-  styleUrls: ['./client-info-card.component.scss'],
-  standalone: true,
-  imports: [CommonModule, SpinnerComponent, AgGridModule],
+    selector: 'app-client-info-card',
+    templateUrl: './client-info-card.component.html',
+    styleUrls: ['./client-info-card.component.scss'],
+    imports: [CommonModule, SpinnerComponent, AgGridModule]
 })
 export class ClientInfoCardComponent implements OnChanges {
   @Input('client') client: IClient | null = null;

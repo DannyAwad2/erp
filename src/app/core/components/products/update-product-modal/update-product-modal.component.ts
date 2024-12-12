@@ -21,11 +21,10 @@ import { CategoriesService } from 'src/app/core/services/categories.service';
 import { ICategory } from 'src/app/core/models/icategory';
 
 @Component({
-  selector: 'app-update-product-modal',
-  templateUrl: './update-product-modal.component.html',
-  styleUrls: ['./update-product-modal.component.scss'],
-  standalone: true,
-  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
+    selector: 'app-update-product-modal',
+    templateUrl: './update-product-modal.component.html',
+    styleUrls: ['./update-product-modal.component.scss'],
+    imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule]
 })
 export class UpdateProductModalComponent
   extends Unsubscriber

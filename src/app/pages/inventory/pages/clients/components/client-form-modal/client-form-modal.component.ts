@@ -16,11 +16,10 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
 @Component({
-  selector: 'app-client-form-modal',
-  templateUrl: './client-form-modal.component.html',
-  styleUrls: ['./client-form-modal.component.scss'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+    selector: 'app-client-form-modal',
+    templateUrl: './client-form-modal.component.html',
+    styleUrls: ['./client-form-modal.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule]
 })
 export class ClientFormModalComponent extends Unsubscriber implements OnInit {
   @Input() client!: IClient;

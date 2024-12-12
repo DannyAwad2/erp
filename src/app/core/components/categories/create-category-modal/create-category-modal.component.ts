@@ -15,11 +15,10 @@ import { takeUntil } from 'rxjs';
 import { MessagesService } from 'src/app/core/services/messages.service';
 
 @Component({
-  selector: 'app-create-category-modal',
-  templateUrl: './create-category-modal.component.html',
-  styleUrls: ['./create-category-modal.component.scss'],
-  standalone: true,
-  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
+    selector: 'app-create-category-modal',
+    templateUrl: './create-category-modal.component.html',
+    styleUrls: ['./create-category-modal.component.scss'],
+    imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule]
 })
 export class CreateCategoryModalComponent
   extends Unsubscriber

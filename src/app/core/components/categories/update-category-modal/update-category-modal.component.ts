@@ -19,11 +19,10 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
 @Component({
-  selector: 'app-update-category-modal',
-  templateUrl: './update-category-modal.component.html',
-  styleUrls: ['./update-category-modal.component.scss'],
-  standalone: true,
-  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
+    selector: 'app-update-category-modal',
+    templateUrl: './update-category-modal.component.html',
+    styleUrls: ['./update-category-modal.component.scss'],
+    imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule]
 })
 export class UpdateCategoryModalComponent
   extends Unsubscriber

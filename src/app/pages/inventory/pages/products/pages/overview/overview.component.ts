@@ -11,17 +11,16 @@ import { ProductsService } from 'src/app/core/services/products.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
-  standalone: true,
-  imports: [
-    CreateProductModalComponent,
-    UpdateProductModalComponent,
-    CommonModule,
-    NgbDropdownModule,
-    FormsModule,
-  ],
+    selector: 'app-overview',
+    templateUrl: './overview.component.html',
+    styleUrls: ['./overview.component.scss'],
+    imports: [
+        CreateProductModalComponent,
+        UpdateProductModalComponent,
+        CommonModule,
+        NgbDropdownModule,
+        FormsModule,
+    ]
 })
 export class OverviewComponent extends Unsubscriber implements OnInit {
   @ViewChild(CreateProductModalComponent)

@@ -13,18 +13,17 @@ import { MessagesService } from 'src/app/core/services/messages.service';
 import { ClientInfoCardComponent } from 'src/app/core/components/client-info-card/client-info-card.component';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgbDropdownModule,
-    ClientFormModalComponent,
-    SpinnerComponent,
-    ReactiveFormsModule,
-    ClientInfoCardComponent,
-  ],
+    selector: 'app-overview',
+    templateUrl: './overview.component.html',
+    styleUrls: ['./overview.component.scss'],
+    imports: [
+        CommonModule,
+        NgbDropdownModule,
+        ClientFormModalComponent,
+        SpinnerComponent,
+        ReactiveFormsModule,
+        ClientInfoCardComponent,
+    ]
 })
 export class OverviewComponent extends Unsubscriber implements OnInit {
   accountsSummary!: IClientAccountSummary[];

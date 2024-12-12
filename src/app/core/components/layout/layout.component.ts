@@ -3,11 +3,10 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css'],
-  standalone: true,
-  imports: [NavbarComponent, RouterModule],
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.css'],
+    imports: [NavbarComponent, RouterModule]
 })
 export class LayoutComponent implements OnInit {
   constructor() {}
