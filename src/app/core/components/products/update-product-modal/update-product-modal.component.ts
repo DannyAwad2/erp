@@ -21,10 +21,10 @@ import { CategoriesService } from 'src/app/core/services/categories.service';
 import { ICategory } from 'src/app/core/models/icategory';
 
 @Component({
-    selector: 'app-update-product-modal',
-    templateUrl: './update-product-modal.component.html',
-    styleUrls: ['./update-product-modal.component.scss'],
-    imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule]
+  selector: 'app-update-product-modal',
+  templateUrl: './update-product-modal.component.html',
+  styleUrls: ['./update-product-modal.component.scss'],
+  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
 })
 export class UpdateProductModalComponent
   extends Unsubscriber
@@ -34,7 +34,7 @@ export class UpdateProductModalComponent
   form!: FormGroup<ICreateProduct>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
-  id: number = 0;
+  id: string = '';
   categories$!: Observable<ICategory[]>;
 
   constructor(
@@ -48,7 +48,7 @@ export class UpdateProductModalComponent
 
   ngOnInit() {
     this.form = new FormGroup<ICreateProduct>({
-      categoryId: new FormControl(null, Validators.required),
+      category: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
       price: new FormControl(null, Validators.required),
       stock: new FormControl(null, Validators.required),
@@ -63,7 +63,7 @@ export class UpdateProductModalComponent
         (this.id = product.id),
           this.form.patchValue({
             name: product.name,
-            categoryId: product.categoryId,
+            category: product.category,
             cost: product.cost,
             price: product.price,
             stock: product.stock,
@@ -99,7 +99,7 @@ export class UpdateProductModalComponent
       id: this.id,
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
-      categoryId: this.formControls.categoryId.value || 0,
+      category: this.formControls.category.value || '',
       name: this.formControls.name.value || '',
       published: new Date().toISOString(),
       stock: this.formControls.stock.value || 0,
@@ -109,9 +109,9 @@ export class UpdateProductModalComponent
       .update(updatedEntity)
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe(
-        (entity) => {
+        (_res) => {
           this.close();
-          this.entitiesService.onEdited.next(entity);
+          this.entitiesService.onEdited.next(updatedEntity);
         },
         (error) => {
           this.form.enable();

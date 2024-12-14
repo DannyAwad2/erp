@@ -7,9 +7,26 @@
             type="search"
             type="text"
             placeholder="اسم المنتج"
-            class="form-control"
+            class="form-control form-control-sm"
             (keyup)="onFilter($event)"
           />
+        </div>
+      </div>
+      <div class="col d-flex">
+        <p class="mt-1 ms-1">عرض:</p>
+        <div>
+          <select
+            [disabled]="isLoading"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option selected value="">الكل</option>
+            @for (cat of categories$ | async; track cat.name) {
+            <option (click)="handleCatSelection(cat.name)" [value]="cat.name">
+              {{ cat.name }}
+            </option>
+            }
+          </select>
         </div>
       </div>
       <div class="col">
@@ -47,7 +64,7 @@
           <td style="min-width: 90px">{{ product.price | number }}</td>
           <td style="min-width: 90px">{{ product.stock | number }}</td>
           <td style="min-width: 90px">{{ product.cost | number }}</td>
-          <td style="min-width: 90px">{{ product.categoryId }}</td>
+          <td style="min-width: 90px">{{ product.category }}</td>
           <td style="min-width: 90px">
             {{ product.published | date : "short" }}
           </td>
@@ -63,7 +80,7 @@
               <ul ngbDropdownMenu>
                 <li>
                   <button
-                    (click)="onEdit(product)"
+                    (click)="editEntry(product)"
                     class="dropdown-item"
                     href="#"
                   >
@@ -99,11 +116,7 @@
   </div>
 </div>
 <!-- Loading -->
-<div class="text-center p-5" [hidden]="!isLoading || isError">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">isLoading...</span>
-  </div>
-</div>
+<app-spinner [hidden]="!isLoading || isError"></app-spinner>
 
 <!-- No Data -->
 <div
@@ -116,10 +129,9 @@
 <!-- Server Error-->
 <div class="alert alert-danger text-center" *ngIf="isError">
   خطأ في الاتصال بالسيرفر, اضغط
-  <button class="btn" href="#" (click)="fetchEntities()">
+  <button class="btn" href="#" (click)="fetchEntities(currCategory)">
     هنا للمحاولة مرة اخرى
   </button>
 </div>
 
 <app-create-product-modal></app-create-product-modal>
-<app-update-product-modal></app-update-product-modal>

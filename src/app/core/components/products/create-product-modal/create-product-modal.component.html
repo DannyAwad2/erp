@@ -27,19 +27,18 @@
         <div class="col-md">
           <label for="category">النوع <span class="text-danger">*</span></label>
           <select
-            formControlName="categoryId"
+            formControlName="category"
             class="form-select"
             aria-label="Default select example"
             [ngClass]="{
               'is-invalid':
-                formControls.categoryId.touched &&
-                formControls.categoryId.errors
+                formControls.category.touched && formControls.category.errors
             }"
           >
-            <option selected>اختار نوع</option>
+            <option selected value="">اختار نوع</option>
             <option
               *ngFor="let category of categories$ | async"
-              [value]="category.id"
+              [value]="category.name"
             >
               {{ category.name }}
             </option>
@@ -97,12 +96,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="close()">إلغاء</button>
-    <button
-      [disabled]="isSubmiting || form.invalid"
-      type="button"
-      class="btn btn-success"
-      (click)="onSubmit()"
-    >
+    <button type="button" class="btn btn-success" (click)="onSubmit()">
       <div
         *ngIf="isSubmiting; else loading"
         class="spinner-border spinner-border-sm"

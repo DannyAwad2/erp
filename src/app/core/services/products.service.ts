@@ -1,10 +1,34 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, Subject, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import {
+  catchError,
+  from,
+  map,
+  Observable,
+  Subject,
+  tap,
+  throwError,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IProduct } from '../models/iproduct';
 import { ApiRoutes } from '../routes/api-routes';
 import { MessagesService } from './messages.service';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  CollectionReference,
+  deleteDoc,
+  doc,
+  DocumentData,
+  documentId,
+  Firestore,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -14,44 +38,50 @@ export class ProductsService {
   onSelected = new Subject<IProduct>();
   onEdited = new Subject<IProduct>();
 
-  private baseURL = environment.baseURL;
+  private firestore = inject(Firestore);
+  private messages = inject(MessagesService);
 
-  constructor(
-    private httpClient: HttpClient,
-    private messages: MessagesService
-  ) {}
+  productsCol!: CollectionReference<DocumentData, DocumentData>;
+
+  constructor() {
+    this.productsCol = collection(this.firestore, 'products');
+  }
 
   getAll(): Observable<IProduct[]> {
-    return this.httpClient.get<IProduct[]>(
-      `${this.baseURL + ApiRoutes.products}`
+    const products = collectionData(this.productsCol);
+    return from(products) as Observable<IProduct[]>;
+  }
+
+  getByCatName(name: string): Observable<IProduct[]> {
+    if (!name) {
+      return this.getAll();
+    } else {
+      const q = query(this.productsCol, where('category', '==', name));
+      const promise = collectionData(q);
+      return from(promise) as Observable<IProduct[]>;
+    }
+  }
+
+  create(product: IProduct): Observable<string> {
+    const newProduct = addDoc(this.productsCol, product);
+    const promise = newProduct.then((res) => res.id);
+    return from(promise).pipe(
+      catchError((error) => {
+        this.messages.toast('خطأ في الشبكة', 'error');
+        return throwError(() => error);
+      })
     );
   }
 
-  create(product: IProduct): Observable<IProduct> {
-    return this.httpClient
-      .post<IProduct>(`${this.baseURL + ApiRoutes.products}`, product)
-      .pipe(
-        tap((p) => {
-          this.messages.createdToast(product.name);
-          this.onCreated.next(p);
-        })
-      );
+  update(product: IProduct): Observable<void> {
+    const docRef = doc(this.firestore, 'products/' + product.id);
+    const p = updateDoc(docRef, { ...product });
+    return from(p) as Observable<void>;
   }
 
-  getById(id: number): Observable<IProduct> {
-    return this.httpClient.get<IProduct>(
-      `${this.baseURL + ApiRoutes.products}/${id}`
-    );
-  }
-
-  update(product: IProduct): Observable<IProduct> {
-    return this.httpClient.put<IProduct>(
-      `${this.baseURL + ApiRoutes.products}/${product.id}`,
-      product
-    );
-  }
-
-  delete(id: number): Observable<Object> {
-    return this.httpClient.delete(`${this.baseURL + ApiRoutes.products}/${id}`);
+  delete(id: string): Observable<void> {
+    const docRef = doc(this.firestore, 'products/' + id);
+    const p = deleteDoc(docRef);
+    return from(p) as Observable<void>;
   }
 }

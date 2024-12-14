@@ -1,10 +1,18 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, tap } from 'rxjs';
+import { from, Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiRoutes } from '../routes/api-routes';
 import { MessagesService } from './messages.service';
 import { ICategory } from '../models/icategory';
+import {
+  collection,
+  collectionData,
+  CollectionReference,
+  DocumentData,
+  Firestore,
+  getDocs,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -15,16 +23,19 @@ export class CategoriesService {
   onEdited = new Subject<ICategory>();
 
   private baseURL = environment.baseURL;
+  private httpClient = inject(HttpClient);
+  private messages = inject(MessagesService);
+  private firestore = inject(Firestore);
 
-  constructor(
-    private httpClient: HttpClient,
-    private messages: MessagesService
-  ) {}
+  private catCollRef: CollectionReference<DocumentData, DocumentData>;
+
+  constructor() {
+    this.catCollRef = collection(this.firestore, 'categories');
+  }
 
   getAll(): Observable<ICategory[]> {
-    return this.httpClient.get<ICategory[]>(
-      `${this.baseURL + ApiRoutes.categories}`
-    );
+    const p = collectionData(this.catCollRef, { idField: 'id' });
+    return p as Observable<ICategory[]>;
   }
 
   create(name: string): Observable<ICategory> {

@@ -12,22 +12,21 @@ import { ICreateProduct } from '../../../models/form-models/icreate-product';
 import { ProductsService } from '../../../services/products.service';
 import { IProduct } from '../../../models/iproduct';
 import { Unsubscriber } from '../../../utils/unsubscriber';
-import { MessagesService } from 'src/app/core/services/messages.service';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Observable } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { ICategory } from 'src/app/core/models/icategory';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 
 @Component({
-    selector: 'app-create-product-modal',
-    templateUrl: './create-product-modal.component.html',
-    styleUrls: ['./create-product-modal.component.scss'],
-    imports: [
-        NgbDatepickerModule,
-        ReactiveFormsModule,
-        CommonModule,
-        NgSelectModule,
-    ]
+  selector: 'app-create-product-modal',
+  templateUrl: './create-product-modal.component.html',
+  styleUrls: ['./create-product-modal.component.scss'],
+  imports: [
+    NgbDatepickerModule,
+    ReactiveFormsModule,
+    CommonModule,
+    NgSelectModule,
+  ],
 })
 export class CreateProductModalComponent
   extends Unsubscriber
@@ -37,11 +36,11 @@ export class CreateProductModalComponent
   form!: FormGroup<ICreateProduct>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
+  mode: 'new' | 'edit' = 'new';
   categories$!: Observable<ICategory[]>;
 
   constructor(
-    private entitiesService: ProductsService,
-    private messages: MessagesService,
+    private productsService: ProductsService,
     private categoriesService: CategoriesService,
     private modalService: NgbModal
   ) {
@@ -50,7 +49,7 @@ export class CreateProductModalComponent
 
   ngOnInit() {
     this.form = new FormGroup<ICreateProduct>({
-      categoryId: new FormControl(null, Validators.required),
+      category: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
       price: new FormControl(null, Validators.required),
       stock: new FormControl(null, Validators.required),
@@ -83,25 +82,48 @@ export class CreateProductModalComponent
     this.isSubmiting = true;
 
     const freshEntity: IProduct = {
-      id: 0,
+      id: '',
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
-      categoryId: this.formControls.categoryId.value || 0,
+      category: this.formControls.category.value || '',
       name: this.formControls.name.value || '',
       published: new Date().toISOString(),
       stock: this.formControls.stock.value || 0,
     };
 
-    this.entitiesService.create(freshEntity).subscribe(
-      () => {
-        this.close();
-      },
-      () => {
-        this.form.enable();
-        this.isSubmiting = false;
-        this.messages.toast('خطأ في الشبكة', 'error');
-      }
-    );
+    if (this.mode === 'new') {
+      this.productsService
+        .create(freshEntity)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe({
+          next: (productId) => {
+            this.productsService.onCreated.next({
+              ...freshEntity,
+              id: productId,
+            });
+
+            this.close();
+          },
+          error: () => {
+            this.form.enable();
+            this.isSubmiting = false;
+          },
+        });
+    } else {
+      this.productsService
+        .update(freshEntity)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe({
+          next: () => {
+            this.productsService.onEdited.next(freshEntity);
+            this.close();
+          },
+          error: () => {
+            this.form.enable();
+            this.isSubmiting = false;
+          },
+        });
+    }
   }
 
   get formControls() {
