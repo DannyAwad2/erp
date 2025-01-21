@@ -100,36 +100,12 @@
 
 <div *ngIf="rowData && client" class="card">
   <div class="card-header">المعملات المالية مع العميل</div>
-  <div class="card-body">
-    <ag-grid-angular
-      style="width: 100%; height: 51.8vh"
-      class="ag-theme-alpine"
-      [rowData]="client ? rowData : []"
-      [columnDefs]="columnDefs"
-      [overlayNoRowsTemplate]="overlayNoRowsTemplate"
-      [overlayLoadingTemplate]="overlayLoadingTemplate"
-      [defaultColDef]="defaultColDef"
-      [enableRtl]="true"
-    >
-    </ag-grid-angular>
-  </div>
+  <div class="card-body"></div>
 </div>
 
 <div *ngIf="!client && !isLoading" class="card">
   <div class="card-header">المعملات المالية مع العميل</div>
-  <div class="card-body">
-    <ag-grid-angular
-      style="width: 100%; height: 51.8vh"
-      class="ag-theme-alpine"
-      [rowData]="[]"
-      [columnDefs]="columnDefs"
-      [overlayNoRowsTemplate]="overlayNoRowsTemplate"
-      [overlayLoadingTemplate]="overlayLoadingTemplate"
-      [defaultColDef]="defaultColDef"
-      [enableRtl]="true"
-    >
-    </ag-grid-angular>
-  </div>
+  <div class="card-body"></div>
 </div>
 
 <div *ngIf="isLoading" class="card">

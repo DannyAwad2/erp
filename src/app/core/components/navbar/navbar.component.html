@@ -6,40 +6,25 @@
       </a>
 
       <ul class="nav nav-pills">
-        <li class="nav-item">
+        <li routerLinkActive="active" class="nav-item">
           <a routerLink="/" class="nav-link">الرئيسية</a>
         </li>
-        <li ngbDropdown class="nav-item dropdown">
-          <button
-            ngbDropdownToggle
-            class="nav-link dropdown-toggle"
-            role="button"
+        <li class="nav-item">
+          <a
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active"
+            class="nav-link"
+            routerLink="/inventory/products"
+            >المنتجات</a
           >
-            المخزن
-          </button>
-          <ul ngbDropdownMenu class="dropdown-menu">
-            <li ngbDropdownItem>
-              <a class="dropdown-item" routerLink="/inventory/products"
-                >المنتجات</a
-              >
-            </li>
-            <li ngbDropdownItem>
-              <a class="dropdown-item" routerLink="/inventory/clients"
-                >العملاء</a
-              >
-            </li>
-            <li ngbDropdownItem>
-              <a class="dropdown-item" routerLink="/inventory/vendors"
-                >الموردون</a
-              >
-            </li>
-          </ul>
         </li>
         <li class="nav-item">
-          <a routerLink="/auth/signup" class="nav-link">تسجيل</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/auth/signin" class="nav-link">تسجيل دخول</a>
+          <a
+            routerLinkActive="active"
+            class="nav-link"
+            routerLink="/inventory/products/categories"
+            >الاصناف</a
+          >
         </li>
       </ul>
     </header>

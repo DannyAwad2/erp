@@ -36,7 +36,6 @@ export class CreateProductModalComponent
   form!: FormGroup<ICreateProduct>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
-  mode: 'new' | 'edit' = 'new';
   categories$!: Observable<ICategory[]>;
 
   constructor(
@@ -81,49 +80,28 @@ export class CreateProductModalComponent
     this.form.disable();
     this.isSubmiting = true;
 
-    const freshEntity: IProduct = {
-      id: '',
+    const freshEntity = {
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
-      category: this.formControls.category.value || '',
+      category: this.formControls.category.value || 'uncategorized',
       name: this.formControls.name.value || '',
       published: new Date().toISOString(),
-      stock: this.formControls.stock.value || 0,
+      stock: this.formControls.stock.value || 1,
     };
 
-    if (this.mode === 'new') {
-      this.productsService
-        .create(freshEntity)
-        .pipe(takeUntil(this.unsubscriber$))
-        .subscribe({
-          next: (productId) => {
-            this.productsService.onCreated.next({
-              ...freshEntity,
-              id: productId,
-            });
-
-            this.close();
-          },
-          error: () => {
-            this.form.enable();
-            this.isSubmiting = false;
-          },
-        });
-    } else {
-      this.productsService
-        .update(freshEntity)
-        .pipe(takeUntil(this.unsubscriber$))
-        .subscribe({
-          next: () => {
-            this.productsService.onEdited.next(freshEntity);
-            this.close();
-          },
-          error: () => {
-            this.form.enable();
-            this.isSubmiting = false;
-          },
-        });
-    }
+    this.productsService
+      .create(freshEntity)
+      .pipe(takeUntil(this.unsubscriber$))
+      .subscribe({
+        next: () => {
+          this.productsService.onPageSizeChange.next(10);
+          this.close();
+        },
+        error: () => {
+          this.form.enable();
+          this.isSubmiting = false;
+        },
+      });
   }
 
   get formControls() {

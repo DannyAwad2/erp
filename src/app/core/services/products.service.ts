@@ -1,34 +1,19 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
-  catchError,
+  BehaviorSubject,
+  concatMap,
+  delay,
   from,
-  map,
   Observable,
+  of,
   Subject,
+  switchMap,
   tap,
-  throwError,
 } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { IProduct } from '../models/iproduct';
-import { ApiRoutes } from '../routes/api-routes';
 import { MessagesService } from './messages.service';
-import {
-  addDoc,
-  collection,
-  collectionData,
-  CollectionReference,
-  deleteDoc,
-  doc,
-  DocumentData,
-  documentId,
-  Firestore,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from '@angular/fire/firestore';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -37,51 +22,54 @@ export class ProductsService {
   onCreated = new Subject<IProduct>();
   onSelected = new Subject<IProduct>();
   onEdited = new Subject<IProduct>();
+  onPageSizeChange = new BehaviorSubject<number>(10);
 
-  private firestore = inject(Firestore);
   private messages = inject(MessagesService);
+  private http = inject(HttpClient);
 
-  productsCol!: CollectionReference<DocumentData, DocumentData>;
+  private baseUrl = environment.baseURL;
 
-  constructor() {
-    this.productsCol = collection(this.firestore, 'products');
-  }
+  constructor() {}
 
   getAll(): Observable<IProduct[]> {
-    const products = collectionData(this.productsCol);
-    return from(products) as Observable<IProduct[]>;
+    return this.onPageSizeChange
+      .pipe(
+        concatMap((page) =>
+          this.http.get<IProduct[]>(this.baseUrl + '/products', {
+            headers: new HttpHeaders({ _per_page: page }),
+          })
+        )
+      )
+      .pipe(delay(300));
   }
 
   getByCatName(name: string): Observable<IProduct[]> {
     if (!name) {
       return this.getAll();
     } else {
-      const q = query(this.productsCol, where('category', '==', name));
-      const promise = collectionData(q);
-      return from(promise) as Observable<IProduct[]>;
+      return from([]) as Observable<IProduct[]>;
     }
   }
 
-  create(product: IProduct): Observable<string> {
-    const newProduct = addDoc(this.productsCol, product);
-    const promise = newProduct.then((res) => res.id);
-    return from(promise).pipe(
-      catchError((error) => {
-        this.messages.toast('خطأ في الشبكة', 'error');
-        return throwError(() => error);
-      })
+  create(product: {
+    cost: number;
+    price: number;
+    category: string;
+    name: string;
+    published: string;
+    stock: number;
+  }) {
+    return this.http.post<IProduct>(this.baseUrl + '/products', product);
+  }
+
+  update(product: IProduct): Observable<IProduct> {
+    return this.http.put<IProduct>(
+      this.baseUrl + '/products/' + product.id,
+      product
     );
   }
 
-  update(product: IProduct): Observable<void> {
-    const docRef = doc(this.firestore, 'products/' + product.id);
-    const p = updateDoc(docRef, { ...product });
-    return from(p) as Observable<void>;
-  }
-
-  delete(id: string): Observable<void> {
-    const docRef = doc(this.firestore, 'products/' + id);
-    const p = deleteDoc(docRef);
-    return from(p) as Observable<void>;
+  delete(id: string): Observable<IProduct> {
+    return this.http.delete<IProduct>(this.baseUrl + '/products/' + id);
   }
 }

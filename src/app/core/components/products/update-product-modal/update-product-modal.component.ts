@@ -34,8 +34,8 @@ export class UpdateProductModalComponent
   form!: FormGroup<ICreateProduct>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
-  id: string = '';
   categories$!: Observable<ICategory[]>;
+  selectedProduct!: IProduct;
 
   constructor(
     private modalService: NgbModal,
@@ -60,14 +60,14 @@ export class UpdateProductModalComponent
     this.entitiesService.onSelected
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((product) => {
-        (this.id = product.id),
-          this.form.patchValue({
-            name: product.name,
-            category: product.category,
-            cost: product.cost,
-            price: product.price,
-            stock: product.stock,
-          });
+        this.selectedProduct = product;
+        this.form.patchValue({
+          name: product.name,
+          category: product.category,
+          cost: product.cost,
+          price: product.price,
+          stock: product.stock,
+        });
         this.open();
       });
   }
@@ -96,7 +96,7 @@ export class UpdateProductModalComponent
     this.isSubmiting = true;
 
     const updatedEntity: IProduct = {
-      id: this.id,
+      id: this.selectedProduct.id,
       cost: this.formControls.cost.value || 0,
       price: this.formControls.price.value || 0,
       category: this.formControls.category.value || '',

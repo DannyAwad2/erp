@@ -4,21 +4,18 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
 } from '@angular/core';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { IClient } from '../../models/iclient';
-import { AgGridModule } from 'ag-grid-angular';
-import { ColDef } from 'ag-grid-community';
 import { ClientsService } from '../../services/clients.service';
 import { ITransaction } from '../../models/itransaction';
 
 @Component({
-    selector: 'app-client-info-card',
-    templateUrl: './client-info-card.component.html',
-    styleUrls: ['./client-info-card.component.scss'],
-    imports: [CommonModule, SpinnerComponent, AgGridModule]
+  selector: 'app-client-info-card',
+  templateUrl: './client-info-card.component.html',
+  styleUrls: ['./client-info-card.component.scss'],
+  imports: [CommonModule, SpinnerComponent],
 })
 export class ClientInfoCardComponent implements OnChanges {
   @Input('client') client: IClient | null = null;
@@ -41,18 +38,6 @@ export class ClientInfoCardComponent implements OnChanges {
         });
     }
   }
-
-  defaultColDef: ColDef = {
-    sortable: true,
-    flex: 1,
-  };
-
-  columnDefs: ColDef[] = [
-    { field: 'type', headerName: 'نوع العملية' },
-    { field: 'id', headerName: 'رقم العملية' },
-    { field: 'date', headerName: 'تاريخ العملية' },
-    { field: 'account', headerName: 'الحساب' },
-  ];
 
   rowData: ITransaction[] | null = null;
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, takeUntil } from 'rxjs';
+import { catchError, Observable, takeUntil, tap } from 'rxjs';
 import { CreateProductModalComponent as productFormModalComponent } from 'src/app/core/components/products/create-product-modal/create-product-modal.component';
 import { SpinnerComponent } from 'src/app/core/components/spinner/spinner.component';
 import { ICategory } from 'src/app/core/models/icategory';
@@ -33,6 +33,7 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
   isLoading = false;
   categories$!: Observable<ICategory[]>;
   currCategory: string = '';
+  products$!: Observable<IProduct[]>;
 
   constructor(
     private productsService: ProductsService,
@@ -43,13 +44,13 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchEntities();
     this.categories$ = this.catService.getAll();
-    this.fetchEntities('');
 
     this.productsService.onCreated
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((entity) => {
-        this.entities.unshift(entity);
+        this.entities.reverse().unshift(entity);
         this.fliterdEntites = this.entities;
       });
 
@@ -57,40 +58,35 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((entity) => {
         const index = this.fliterdEntites.findIndex((p) => p.id === entity.id);
+        console.log(index);
+
         this.fliterdEntites.splice(index, 1, entity);
-        this.fliterdEntites = this.entities;
+        this.entities = this.fliterdEntites;
         this.messages.toast('تم التعديل بنجاح', 'success');
       });
+
+    this.products$ = this.productsService.getAll().pipe(
+      tap((data) => {
+        this.isLoading = false;
+        this.isError = false;
+        return data;
+      })
+    );
   }
 
-  fetchEntities(category: string) {
-    if (category) {
-      this.handleCatSelection(category);
-    } else {
-      this.isError = false;
-      this.isLoading = true;
-      this.productsService
-        .getAll()
-        .pipe(takeUntil(this.unsubscriber$))
-        .subscribe({
-          next: (entities) => {
-            this.entities = entities;
-            this.fliterdEntites = entities;
-            this.isError = false;
-            this.isLoading = false;
-          },
-          error: (error) => {
-            console.log(error);
-
-            this.isError = true;
-            this.isLoading = true;
-          },
-        });
-    }
+  fetchEntities() {
+    this.isError = false;
+    this.isLoading = true;
+    this.productsService.getAll().subscribe({
+      next: (data) => {
+        this.isError = false;
+        this.isLoading = false;
+        this.entities = this.fliterdEntites = data;
+      },
+    });
   }
 
   createEntity() {
-    this.entityFormModalRef.mode = 'new';
     this.entityFormModalRef.open();
   }
 
@@ -98,7 +94,6 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
     this.entityFormModalRef.form.patchValue({
       ...entity,
     });
-    this.entityFormModalRef.mode = 'edit';
     this.entityFormModalRef.open();
   }
 
@@ -107,16 +102,16 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
     if (isConfirmed) {
       this.isLoading = true;
       this.productsService
-        .delete(entity.id)
+        .delete(entity.id ?? '1')
         .pipe(takeUntil(this.unsubscriber$))
         .subscribe({
-          next: (res) => {
+          next: () => {
             this.messages.deletedToast(entity.name);
             this.entities.splice(index, 1);
             this.isLoading = false;
             this.isError = false;
           },
-          error: (err) => {
+          error: () => {
             this.messages.toast('خطأ ما في الشبكة', 'error');
             this.isLoading = false;
           },
@@ -134,25 +129,9 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
     );
   }
 
-  handleCatSelection(name: string) {
+  handlPageSizeSelection(pageSize: number) {
     this.isError = false;
     this.isLoading = true;
-    this.productsService
-      .getByCatName(name)
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe({
-        next: (entities) => {
-          this.entities = entities;
-          this.fliterdEntites = entities;
-          this.isError = false;
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.log(error);
-
-          this.isError = true;
-          this.isLoading = true;
-        },
-      });
+    this.productsService.onPageSizeChange.next(pageSize);
   }
 }
