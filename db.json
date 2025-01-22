@@ -1,66 +1,57 @@
 {
-  "products": [
-    {
-      "id": "5586",
-      "cost": 250,
-      "price": 22,
-      "category": "cat",
-      "name": "big gun",
-      "published": "2025-01-19T17:31:34.002Z",
-      "stock": 3
-    },
-    {
-      "id": "60e2",
-      "cost": 250,
-      "price": 22,
-      "category": "cat",
-      "name": "big gun2",
-      "published": "2025-01-19T17:32:15.507Z",
-      "stock": 3
-    },
-    {
-      "id": "19c5",
-      "cost": 250,
-      "price": 22,
-      "category": "cat",
-      "name": " gun",
-      "published": "2025-01-19T17:38:55.479Z",
-      "stock": 3
-    },
-    {
-      "id": "0bb4",
-      "cost": 250,
-      "price": 22,
-      "category": "cat",
-      "name": " g gun",
-      "published": "2025-01-19T17:41:26.818Z",
-      "stock": 3
-    }
-  ],
+  "products": [],
   "categories": [
     {
-      "name": "cats",
-      "id": "1"
+      "id": "a540",
+      "name": "ألكترونيات"
     },
     {
-      "name": "cat",
-      "id": "2"
+      "name": "ملابس",
+      "id": "f012"
     },
     {
-      "name": "drtrt",
-      "id": "3"
+      "id": "92f8",
+      "name": "شاشات"
     },
     {
-      "name": "hsht",
-      "id": "4"
+      "id": "0a0b",
+      "name": "طابعات"
     },
     {
-      "name": "stneet",
-      "id": "5"
+      "id": "2e39",
+      "name": "cccc"
     },
     {
-      "id": "ec24",
-      "name": "ndend"
+      "id": "9b96",
+      "name": "xxxx"
+    },
+    {
+      "id": "e8d9",
+      "name": "ssss"
+    },
+    {
+      "id": "4ab0",
+      "name": "ccxx"
+    },
+    {
+      "id": "72ab",
+      "name": "ccccc"
+    },
+    {
+      "id": "2b3d",
+      "name": "sss"
+    },
+    {
+      "id": "c15f",
+      "name": "zzz"
+    },
+    {
+      "id": "53bb",
+      "name": "cccc"
+    },
+    {
+      "id": "acbb",
+      "name": "sss"
     }
   ],
   "clients": [

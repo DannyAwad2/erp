@@ -7,7 +7,7 @@
             type="search"
             type="text"
             placeholder="اسم التصنيف"
-            class="form-control form-control-sm"
+            class="form-control form-control-md"
             (keyup)="onFilter($event)"
           />
         </div>
@@ -15,7 +15,7 @@
       <div class="col">
         <div style="text-align: left">
           <button
-            (click)="createEntity()"
+            (click)="createCategory()"
             class="btn btn-success"
             id="addCategory-btn"
           >
@@ -27,7 +27,10 @@
   </div>
 </div>
 
-<div [hidden]="isError || entities.length === 0 || isLoading" class="card">
+<div
+  [hidden]="isError || fliterdCategories.length === 0 || isLoading"
+  class="card"
+>
   <div class="card-body">
     <table [hidden]="isLoading" class="table table-striped table-bordered">
       <thead>
@@ -37,8 +40,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let entity of fliterdEntites; let i = index">
-          <td>{{ entity.name }}</td>
+        <tr *ngFor="let cat of fliterdCategories; let i = index">
+          <td>{{ cat.name }}</td>
           <td>
             <div ngbDropdown container="body">
               <button
@@ -50,18 +53,14 @@
               </button>
               <ul ngbDropdownMenu>
                 <li>
-                  <button
-                    (click)="onEdit(entity)"
-                    class="dropdown-item"
-                    href="#"
-                  >
+                  <button (click)="onEdit(cat)" class="dropdown-item" href="#">
                     <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                     تعديل
                   </button>
                 </li>
                 <li>
                   <button
-                    (click)="onDelete(entity, i)"
+                    (click)="onDelete(cat, i)"
                     class="dropdown-item"
                     href="#"
                   >
@@ -90,7 +89,7 @@
 <!-- No search results -->
 <div
   class="alert alert-warning text-center"
-  *ngIf="fliterdEntites.length === 0 && entities.length > 0 && !isError"
+  *ngIf="fliterdCategories.length === 0 && categories.length > 0 && !isError"
 >
   لاتوجد نتائج بحث
 </div>
@@ -98,7 +97,7 @@
 <!-- No Data -->
 <div
   class="alert alert-warning text-center"
-  *ngIf="entities.length === 0 && !isLoading"
+  *ngIf="categories.length === 0 && !isLoading"
 >
   لم يتم إضافة اي تصنيفات بعد
 </div>
@@ -106,7 +105,7 @@
 <!-- Server Error-->
 <div class="alert alert-danger text-center" *ngIf="isError">
   خطأ في الاتصال بالسيرفر, اضغط
-  <button class="btn" href="#" (click)="fetchEntities()">
+  <button class="btn" href="#" (click)="fetchCategories()">
     هنا للمحاولة مرة اخرى
   </button>
 </div>

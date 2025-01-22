@@ -26,14 +26,12 @@ import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 })
 export class OverviewComponent extends Unsubscriber implements OnInit {
   @ViewChild(productFormModalComponent)
-  entityFormModalRef!: productFormModalComponent;
-  entities: IProduct[] = [];
-  fliterdEntites: IProduct[] = [];
+  productFormModalRef!: productFormModalComponent;
+  products: IProduct[] = [];
+  fliterdProducts: IProduct[] = [];
   isError = false;
   isLoading = false;
   categories$!: Observable<ICategory[]>;
-  currCategory: string = '';
-  products$!: Observable<IProduct[]>;
 
   constructor(
     private productsService: ProductsService,
@@ -44,57 +42,52 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchEntities();
+    this.fetchProducts();
     this.categories$ = this.catService.getAll();
 
     this.productsService.onCreated
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((entity) => {
-        this.entities.reverse().unshift(entity);
-        this.fliterdEntites = this.entities;
+        this.products.reverse();
+        this.products.push(entity);
+        this.products.reverse();
+        this.fliterdProducts = this.products;
       });
 
     this.productsService.onEdited
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((entity) => {
-        const index = this.fliterdEntites.findIndex((p) => p.id === entity.id);
-        console.log(index);
-
-        this.fliterdEntites.splice(index, 1, entity);
-        this.entities = this.fliterdEntites;
-        this.messages.toast('تم التعديل بنجاح', 'success');
+        const index = this.fliterdProducts.findIndex((p) => p.id === entity.id);
+        this.fliterdProducts.splice(index, 1, entity);
+        this.products = this.fliterdProducts;
       });
-
-    this.products$ = this.productsService.getAll().pipe(
-      tap((data) => {
-        this.isLoading = false;
-        this.isError = false;
-        return data;
-      })
-    );
   }
 
-  fetchEntities() {
+  fetchProducts() {
     this.isError = false;
     this.isLoading = true;
     this.productsService.getAll().subscribe({
       next: (data) => {
         this.isError = false;
         this.isLoading = false;
-        this.entities = this.fliterdEntites = data;
+        this.products = this.fliterdProducts = data;
+      },
+      error: () => {
+        this.isError = true;
+        this.isLoading = false;
       },
     });
   }
 
-  createEntity() {
-    this.entityFormModalRef.open();
+  createProduct() {
+    this.productFormModalRef.open(null);
   }
 
-  editEntry(entity: IProduct) {
-    this.entityFormModalRef.form.patchValue({
+  editProduct(entity: IProduct) {
+    this.productFormModalRef.form.patchValue({
       ...entity,
     });
-    this.entityFormModalRef.open();
+    this.productFormModalRef.open({ ...entity });
   }
 
   async onDelete(entity: IProduct, index: number) {
@@ -107,7 +100,7 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
         .subscribe({
           next: () => {
             this.messages.deletedToast(entity.name);
-            this.entities.splice(index, 1);
+            this.products.splice(index, 1);
             this.isLoading = false;
             this.isError = false;
           },
@@ -121,17 +114,11 @@ export class OverviewComponent extends Unsubscriber implements OnInit {
 
   onFilter(term: any) {
     if (term.target.value.trim() === '') {
-      this.fliterdEntites = this.entities;
+      this.fliterdProducts = this.products;
       return;
     }
-    this.fliterdEntites = this.entities.filter((entity) =>
+    this.fliterdProducts = this.products.filter((entity) =>
       entity.name.toLowerCase().includes(term.target.value.toLowerCase())
     );
-  }
-
-  handlPageSizeSelection(pageSize: number) {
-    this.isError = false;
-    this.isLoading = true;
-    this.productsService.onPageSizeChange.next(pageSize);
   }
 }

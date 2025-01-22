@@ -83,8 +83,8 @@ export class MessagesService {
 
   createErrorPopup(name: string) {
     this.popup(
-      'Error',
-      `Error while adding (${name}), please try again.`,
+      'خطأ',
+      `حدث خطأ اثناء انشاء قسم جديد (${name}), الرجاء المحاولة مجدداً.`,
       'error'
     );
   }
@@ -92,8 +92,8 @@ export class MessagesService {
   updatedConfirm(oldName: string, newName: string) {
     return this.confirm('Update', `(${oldName}) updated to (${newName})`);
   }
-  updatedToast(oldName: string, newName: string) {
-    this.toast(`(${oldName}) updated to (${newName})`, 'success');
+  updatedToast() {
+    this.toast(`Updated!`, 'success');
   }
   updateErrorPopup(data: string) {
     this.popup(

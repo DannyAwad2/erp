@@ -23,3 +23,7 @@ h6 {
 select {
   cursor: pointer;
 }
+
+body.swal2-toast-shown .swal2-container {
+  width: 500px !important;
+}

@@ -12,24 +12,24 @@ import {
   NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs';
-import { ICreateCategory } from 'src/app/core/models/form-models/icreate-category';
+import { ICategoryForm } from 'src/app/core/models/form-models/icreate-category';
 import { ICategory } from 'src/app/core/models/icategory';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 import { MessagesService } from 'src/app/core/services/messages.service';
 import { Unsubscriber } from 'src/app/core/utils/unsubscriber';
 
 @Component({
-    selector: 'app-update-category-modal',
-    templateUrl: './update-category-modal.component.html',
-    styleUrls: ['./update-category-modal.component.scss'],
-    imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule]
+  selector: 'app-update-category-modal',
+  templateUrl: './update-category-modal.component.html',
+  styleUrls: ['./update-category-modal.component.scss'],
+  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
 })
 export class UpdateCategoryModalComponent
   extends Unsubscriber
   implements OnInit
 {
   @ViewChild('content') modalContent: any;
-  form!: FormGroup<ICreateCategory>;
+  form!: FormGroup<ICategoryForm>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
   id: number = 0;
@@ -43,7 +43,7 @@ export class UpdateCategoryModalComponent
   }
 
   ngOnInit() {
-    this.form = new FormGroup<ICreateCategory>({
+    this.form = new FormGroup<ICategoryForm>({
       name: new FormControl(null, Validators.required),
     });
 

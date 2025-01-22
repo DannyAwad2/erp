@@ -9,41 +9,40 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { Unsubscriber } from '../../../utils/unsubscriber';
-import { ICreateCategory } from 'src/app/core/models/form-models/icreate-category';
+import { ICategoryForm } from 'src/app/core/models/form-models/icreate-category';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 import { takeUntil } from 'rxjs';
 import { MessagesService } from 'src/app/core/services/messages.service';
+import { ICategory } from 'src/app/core/models/icategory';
 
 @Component({
-    selector: 'app-create-category-modal',
-    templateUrl: './create-category-modal.component.html',
-    styleUrls: ['./create-category-modal.component.scss'],
-    imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule]
+  selector: 'app-create-category-modal',
+  templateUrl: './create-category-modal.component.html',
+  styleUrls: ['./create-category-modal.component.scss'],
+  imports: [NgbDatepickerModule, ReactiveFormsModule, CommonModule],
 })
-export class CreateCategoryModalComponent
-  extends Unsubscriber
-  implements OnInit
-{
+export class CategoryModalComponent extends Unsubscriber implements OnInit {
   @ViewChild('content') modalContent: any;
-  form!: FormGroup<ICreateCategory>;
+  form!: FormGroup<ICategoryForm>;
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
+  category: ICategory | null = null;
 
   constructor(
     private modalService: NgbModal,
-    private entitiesService: CategoriesService,
-    private messages: MessagesService
+    private categoryService: CategoriesService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.form = new FormGroup<ICreateCategory>({
+    this.form = new FormGroup<ICategoryForm>({
       name: new FormControl(null, Validators.required),
     });
   }
 
-  open() {
+  open(category: ICategory | null) {
+    this.category = category;
     this.activeModalRef = this.modalService.open(this.modalContent, {
       centered: true,
     });
@@ -66,21 +65,35 @@ export class CreateCategoryModalComponent
     this.form.disable();
     this.isSubmiting = true;
 
-    const entityName = this.form.value.name || '';
+    const categoryName = this.form.value.name || '';
 
-    this.entitiesService
-      .create(entityName)
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe(
-        () => {
-          this.close();
-        },
-        () => {
-          this.form.enable();
-          this.isSubmiting = false;
-          this.messages.toast('خطأ في الشبكة', 'error');
-        }
-      );
+    if (this.category) {
+      this.categoryService
+        .update({ ...this.category, name: categoryName })
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe({
+          next: () => {
+            this.close();
+          },
+          error: () => {
+            this.form.enable();
+            this.isSubmiting = false;
+          },
+        });
+    } else {
+      this.categoryService
+        .create(categoryName)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe({
+          next: () => {
+            this.close();
+          },
+          error: () => {
+            this.form.enable();
+            this.isSubmiting = false;
+          },
+        });
+    }
   }
 
   get formControls() {

@@ -9,8 +9,8 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { CacheInterceptor } from './core/Interceptors/cache.Interceptor';
 import { RouterModule } from '@angular/router';
+import { ErrorIntercepter } from './core/Interceptors/errors.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CacheInterceptor,
+      useClass: ErrorIntercepter,
       multi: true,
     },
     provideHttpClient(withInterceptorsFromDi()),

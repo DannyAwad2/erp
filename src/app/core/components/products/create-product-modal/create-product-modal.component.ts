@@ -10,12 +10,12 @@ import {
 
 import { ICreateProduct } from '../../../models/form-models/icreate-product';
 import { ProductsService } from '../../../services/products.service';
-import { IProduct } from '../../../models/iproduct';
 import { Unsubscriber } from '../../../utils/unsubscriber';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Observable, takeUntil } from 'rxjs';
 import { ICategory } from 'src/app/core/models/icategory';
 import { CategoriesService } from 'src/app/core/services/categories.service';
+import { IProduct } from 'src/app/core/models/iproduct';
 
 @Component({
   selector: 'app-create-product-modal',
@@ -37,6 +37,7 @@ export class CreateProductModalComponent
   activeModalRef!: NgbModalRef;
   isSubmiting = false;
   categories$!: Observable<ICategory[]>;
+  product: IProduct | null = null;
 
   constructor(
     private productsService: ProductsService,
@@ -57,7 +58,8 @@ export class CreateProductModalComponent
     this.categories$ = this.categoriesService.getAll();
   }
 
-  open() {
+  open(product: IProduct | null) {
+    this.product = product;
     this.activeModalRef = this.modalService.open(this.modalContent, {
       centered: true,
     });
@@ -89,19 +91,35 @@ export class CreateProductModalComponent
       stock: this.formControls.stock.value || 1,
     };
 
-    this.productsService
-      .create(freshEntity)
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe({
-        next: () => {
-          this.productsService.onPageSizeChange.next(10);
-          this.close();
-        },
-        error: () => {
-          this.form.enable();
-          this.isSubmiting = false;
-        },
-      });
+    if (this.product) {
+      this.productsService
+        .update({ ...this.product, ...freshEntity })
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe({
+          next: () => {
+            this.productsService.onPageSizeChange.next(10);
+            this.close();
+          },
+          error: () => {
+            this.form.enable();
+            this.isSubmiting = false;
+          },
+        });
+    } else {
+      this.productsService
+        .create(freshEntity)
+        .pipe(takeUntil(this.unsubscriber$))
+        .subscribe({
+          next: () => {
+            this.productsService.onPageSizeChange.next(10);
+            this.close();
+          },
+          error: () => {
+            this.form.enable();
+            this.isSubmiting = false;
+          },
+        });
+    }
   }
 
   get formControls() {
